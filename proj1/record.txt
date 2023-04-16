@@ -1,0 +1,2607 @@
+Test 1:\n\n
+Origin:
+def sina_xml_to_url_list(xml_data):
+    """str->list
+    Convert XML to URL List.
+    From Biligrab.
+    """
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Preprocess:
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+""" This function
+
+
+    is a function that returns the raw url list
+
+
+   _to_
+is a function that returns the raw url list
+
+
+returns the raw url list
+BLEU-4: 0.0000
+METEOR: 0.2435
+Origin:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Dailymotion videos by URL.
+    """
+
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+
+    mime, ext, size = url_info(real_url)
+
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Preprocess:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+""" This function
+(url, output_dir='.', merge=True, **kwargs):
+    downloads videos from d
+downloads videos from d
+downloads videos from d
+BLEU-4: 0.2959
+METEOR: 0.2041
+Origin:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Sina videos by URL.
+    """
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Preprocess:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function
+
+
+
+
+
+   _zxt = """
+sina_
+ _zxt = """
+sina_
+ _zxt = """sina_
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def sprint(text, *colors):
+    """Format text with color or other effects into ANSI escaped string."""
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Preprocess:
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" This function
+):
+   : str) -> str:
+   ):
+  ,):
+
+
+
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def print_log(text, *colors):
+    """Print a log message to standard error."""
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+Preprocess:
+def print_log(text, *colors):
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+""" This function
+:
+    prints the log to stderr.
+
+   _error(text, *colors):
+
+prints the log to stderr
+prints the log to stderr
+BLEU-4: 0.1915
+METEOR: 0.2206
+Origin:
+def e(message, exit_code=None):
+    """Print an error log message."""
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def e(message, exit_code=None):
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function
+():
+ is a function that will be called by the
+
+""" This function is called by the Python interpreter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Test2:\n\n\n
+Origin:
+def sina_xml_to_url_list(xml_data):
+    """str->list
+    Convert XML to URL List.
+    From Biligrab.
+    """
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Preprocess:
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+
+""" This function
+
+
+""" This function is a function
+
+def get_raw_url_list():
+    is
+is
+is
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Dailymotion videos by URL.
+    """
+
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+
+    mime, ext, size = url_info(real_url)
+
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Preprocess:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+
+""" This function
+(url, output_dir='.', merge=True, **kwargs):
+    downloads videos from d
+downloads videos from d
+downloads videos from d
+BLEU-4: 0.2959
+METEOR: 0.2041
+Origin:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Sina videos by URL.
+    """
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Preprocess:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+
+""" This function
+
+ is a wrapper for the sina_download function.
+
+
+
+
+is a wrapper for the sina_download function
+is a wrapper for the sina_download function
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def sprint(text, *colors):
+    """Format text with color or other effects into ANSI escaped string."""
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Preprocess:
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+
+""" This function
+,: str, *colors: str) -> str:
+   : str) -> str:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Download record:
+Downloading (…)okenizer_config.json: 100%|██████████| 1.48k/1.48k [00:00<00:00, 737kB/s]
+D:\Python_3.7.9\lib\site-packages\huggingface_hub\file_download.py:133: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\Lenovo\.cache\huggingface\hub. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to see activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+Downloading (…)olve/main/vocab.json: 100%|██████████| 703k/703k [00:04<00:00, 143kB/s]
+Downloading (…)olve/main/merges.txt: 100%|██████████| 294k/294k [00:01<00:00, 206kB/s]
+Downloading (…)in/added_tokens.json: 100%|██████████| 2.00/2.00 [00:00<00:00, 666B/s]
+Downloading (…)cial_tokens_map.json: 100%|██████████| 12.5k/12.5k [00:00<00:00, 4.04MB/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Test new 1:
+Origin:
+def sina_xml_to_url_list(xml_data):
+    """str->list
+    Convert XML to URL List.
+    From Biligrab.
+    """
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Preprocess:
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+""" This function
+
+    is a function to convert the xml to a list of strings.
+"""
+
+is a function to convert the xml to a list of strings
+1
+2
+3
+is a function to convert the xml to a list of strings
+BLEU-4: 0.0891
+METEOR: 0.3042
+Origin:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Dailymotion videos by URL.
+    """
+
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+
+    mime, ext, size = url_info(real_url)
+
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Preprocess:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+""" This function
+ is a very simple function to download videos.
+"""
+
+    is a very simple function
+is a very simple function to download videos
+1
+2
+3
+is a very simple function to download videos
+BLEU-4: 0.0000
+METEOR: 0.0943
+Origin:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Sina videos by URL.
+    """
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Preprocess:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function
+
+ is a function to download videos from Sina.
+
+
+
+is a function to download videos from Sina
+1
+2
+3
+is a function to download videos from Sina
+BLEU-4: 0.1389
+METEOR: 0.1887
+Origin:
+def sprint(text, *colors):
+    """Format text with color or other effects into ANSI escaped string."""
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Preprocess:
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" This function
+:
+    """ is a pretty print function.
+
+   ):
+
+is a pretty print function
+1
+2
+3
+is a pretty print function
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def print_log(text, *colors):
+    """Print a log message to standard error."""
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+Preprocess:
+def print_log(text, *colors):
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+""" This function
+(script_name, text):
+    return """ is a function.
+
+():
+
+1
+2
+3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Test 2:
+Origin:
+def sina_xml_to_url_list(xml_data):
+    """str->list
+    Convert XML to URL List.
+    From Biligrab.
+    """
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Preprocess:
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+""" This function
+
+    is a function to convert the xml to a list of strings.
+"""
+
+is a function to convert the xml to a list of strings
+1
+2
+3
+is a function to convert the xml to a list of strings
+BLEU-4: 0.0891
+METEOR: 0.3042
+Origin:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Dailymotion videos by URL.
+    """
+
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+
+    mime, ext, size = url_info(real_url)
+
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Preprocess:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+""" This function
+ is a very simple function to download videos.
+"""
+
+    is a very simple function
+is a very simple function to download videos
+1
+2
+3
+is a very simple function to download videos
+BLEU-4: 0.0000
+METEOR: 0.0943
+Origin:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Sina videos by URL.
+    """
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Preprocess:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function
+
+ is a function to download videos from Sina.
+
+
+
+is a function to download videos from Sina
+1
+2
+3
+is a function to download videos from Sina
+BLEU-4: 0.1389
+METEOR: 0.1887
+Origin:
+def sprint(text, *colors):
+    """Format text with color or other effects into ANSI escaped string."""
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Preprocess:
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" This function
+:
+    """ is a pretty print function.
+
+   ):
+
+is a pretty print function
+1
+2
+3
+is a pretty print function
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def print_log(text, *colors):
+    """Print a log message to standard error."""
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+Preprocess:
+def print_log(text, *colors):
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+""" This function
+(script_name, text):
+    return """ is a function.
+
+():
+
+1
+2
+3
+
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def e(message, exit_code=None):
+    """Print an error log message."""
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def e(message, exit_code=None):
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function
+ is called.
+ is a function.
+ is called.
+
+"""
+
+is called.
+ is a function.
+ is called
+1
+2
+3
+is called is a function is called
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def wtf(message, exit_code=1):
+    """What a Terrible Failure!"""
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def wtf(message, exit_code=1):
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function
+ is called.
+
+"""
+ is called.
+
+ is called.
+is called.
+
+"""
+ is called.
+
+ is called
+1
+2
+3
+is called""" is called is called
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def detect_os():
+    """Detect operating system.
+    """
+
+    # Inspired by:
+    # https://github.com/scivision/pybashutils/blob/78b7f2b339cb03b1c37df94015098bbe462f8526/pybashutils/windows_linux_detect.py
+
+    syst = system().lower()
+    os = 'unknown'
+
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os = 'mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        # detect WSL https://github.com/Microsoft/BashOnWindows/issues/423
+        try:
+            with open('/proc/version', 'r') as f:
+                if 'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+
+    return os
+Preprocess:
+def detect_os():
+    # Inspired by:
+    # https://github.com/scivision/pybashutils/blob/78b7f2b339cb03b1c37df94015098bbe462f8526/pybashutils/windows_linux_detect.py
+    syst = system().lower()
+    os = 'unknown'
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os = 'mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        # detect WSL https://github.com/Microsoft/BashOnWindows/issues/423
+        try:
+            with open('/proc/version', 'r') as f:
+                if 'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+    return os
+
+""" This function
+ is a function that returns the OS name.
+"""
+
+def system():
+    is
+is
+1
+2
+3
+is
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """str->None"""
+    # https://vimeo.com/channels/464686
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+Preprocess:
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    # https://vimeo.com/channels/464686
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+""" This function
+(url, output_dir='.', merge=True, info_only=False, **kwargs):
+
+1
+2
+3
+
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def ckplayer_get_info_by_xml(ckinfo):
+    """str->dict
+    Information for CKPlayer API content."""
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  #'duration': 0,
+                  'links': [],
+                  'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:  #title
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+
+    #if dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip():  #duration
+        #video_dict['title'] = dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip()
+
+    if '_text' in dictified['video'][0]['size'][0]:  #size exists for 1 piece
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+
+    if '_text' in dictified['video'][0]['file'][0]:  #link exist
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+
+    return video_dict
+Preprocess:
+def ckplayer_get_info_by_xml(ckinfo):
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  #'duration': 0,
+                  'links': [],
+                  'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:  #title
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+    #if dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip():  #duration
+        #video_dict['title'] = dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip()
+    if '_text' in dictified['video'][0]['size'][0]:  #size exists for 1 piece
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+    if '_text' in dictified['video'][0]['file'][0]:  #link exist
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+    return video_dict
+
+""" This function
+ is a function to get the info from a CKPlayer XML file.
+"""
+
+
+is a function to get the info from a CKPlayer XML file
+1
+2
+3
+is a function to get the info from a CKPlayer XML file
+BLEU-4: 0.0891
+METEOR: 0.0758
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Test 3:
+Origin:
+def sina_xml_to_url_list(xml_data):
+    """str->list
+    Convert XML to URL List.
+    From Biligrab.
+    """
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Preprocess:
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+""" This function
+Origin result:
+    is a function to convert the xml to a list of strings.
+"""
+
+Denoised result: is a function to convert the xml to a list of strings
+1
+2
+3
+is a function to convert the xml to a list of strings
+Final result: Is a function to convert the xml to a list of strings.
+BLEU-4: 0.0891
+METEOR: 0.3042
+Origin:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Dailymotion videos by URL.
+    """
+
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+
+    mime, ext, size = url_info(real_url)
+
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Preprocess:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+""" This function
+Origin result:  is a very simple function to download videos.
+"""
+
+    is a very simple function
+Denoised result: is a very simple function to download videos
+1
+2
+3
+is a very simple function to download videos
+Final result: Is a very simple function to download videos.
+BLEU-4: 0.0000
+METEOR: 0.0943
+Origin:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Sina videos by URL.
+    """
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Preprocess:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function
+Origin result:
+ is a function to download videos from Sina.
+
+
+
+Denoised result: is a function to download videos from Sina
+1
+2
+3
+is a function to download videos from Sina
+Final result: Is a function to download videos from Sina.
+BLEU-4: 0.1389
+METEOR: 0.1887
+Origin:
+def sprint(text, *colors):
+    """Format text with color or other effects into ANSI escaped string."""
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Preprocess:
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" This function
+Origin result: :
+    """ is a pretty print function.
+
+   ):
+
+Denoised result: is a pretty print function
+1
+2
+3
+is a pretty print function
+Final result: Is a pretty print function.
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def print_log(text, *colors):
+    """Print a log message to standard error."""
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+Preprocess:
+def print_log(text, *colors):
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+""" This function
+Origin result: (script_name, text):
+    return """ is a function.
+
+():
+Denoised result:
+1
+2
+3
+
+Final result: No valid comments generated..
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def e(message, exit_code=None):
+    """Print an error log message."""
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def e(message, exit_code=None):
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function
+Origin result:  is called.
+ is a function.
+ is called.
+
+"""
+
+Denoised result: is called.
+ is a function.
+ is called
+1
+2
+3
+is called is a function is called
+Final result: Is called is a function is called.
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def wtf(message, exit_code=1):
+    """What a Terrible Failure!"""
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def wtf(message, exit_code=1):
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function
+Origin result:  is called.
+
+"""
+ is called.
+
+ is called.
+Denoised result: is called.
+
+"""
+ is called.
+
+ is called
+1
+2
+3
+is called""" is called is called
+Final result: Is called""" is called is called.
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def detect_os():
+    """Detect operating system.
+    """
+
+    # Inspired by:
+    # https://github.com/scivision/pybashutils/blob/78b7f2b339cb03b1c37df94015098bbe462f8526/pybashutils/windows_linux_detect.py
+
+    syst = system().lower()
+    os = 'unknown'
+
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os = 'mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        # detect WSL https://github.com/Microsoft/BashOnWindows/issues/423
+        try:
+            with open('/proc/version', 'r') as f:
+                if 'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+
+    return os
+Preprocess:
+def detect_os():
+    # Inspired by:
+    # https://github.com/scivision/pybashutils/blob/78b7f2b339cb03b1c37df94015098bbe462f8526/pybashutils/windows_linux_detect.py
+    syst = system().lower()
+    os = 'unknown'
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os = 'mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        # detect WSL https://github.com/Microsoft/BashOnWindows/issues/423
+        try:
+            with open('/proc/version', 'r') as f:
+                if 'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+    return os
+
+""" This function
+Origin result:  is a function that returns the OS name.
+"""
+
+def system():
+    is
+Denoised result: is
+1
+2
+3
+is
+Final result: No valid comments generated..
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """str->None"""
+    # https://vimeo.com/channels/464686
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+Preprocess:
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    # https://vimeo.com/channels/464686
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+""" This function
+Origin result: (url, output_dir='.', merge=True, info_only=False, **kwargs):
+Denoised result:
+1
+2
+3
+
+Final result: No valid comments generated..
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def ckplayer_get_info_by_xml(ckinfo):
+    """str->dict
+    Information for CKPlayer API content."""
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  #'duration': 0,
+                  'links': [],
+                  'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:  #title
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+
+    #if dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip():  #duration
+        #video_dict['title'] = dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip()
+
+    if '_text' in dictified['video'][0]['size'][0]:  #size exists for 1 piece
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+
+    if '_text' in dictified['video'][0]['file'][0]:  #link exist
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+
+    return video_dict
+Preprocess:
+def ckplayer_get_info_by_xml(ckinfo):
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  #'duration': 0,
+                  'links': [],
+                  'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:  #title
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+    #if dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip():  #duration
+        #video_dict['title'] = dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip()
+    if '_text' in dictified['video'][0]['size'][0]:  #size exists for 1 piece
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+    if '_text' in dictified['video'][0]['file'][0]:  #link exist
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+    return video_dict
+
+""" This function
+Origin result:  is a function to get the info from a CKPlayer XML file.
+"""
+
+
+Denoised result: is a function to get the info from a CKPlayer XML file
+1
+2
+3
+is a function to get the info from a CKPlayer XML file
+Final result: Is a function to get the info from a CKPlayer XML file.
+BLEU-4: 0.0891
+METEOR: 0.0758
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+New test:1
+def e(message, exit_code=None):
+    """ This function<extra_id_0>
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+prints an error message """ prints an error message """, prints an error message
+
+def e(message, exit_code=None):
+    # This function<extra_id_0>
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+is called by the CLI # Print the log and exit,
+
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """ This function<extra_id_0>"""
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+downloads a vimeo channel , downloads a vimeo channel
+
+
+def print_log(text, *colors):
+    """ This function<extra_id_0>"""
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+prints the log prints the log, prints the log prints the log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+javaTest:
+
+Lookup profiles from a given directory and merge it with a profile of the same name found in the classpath
+1.
+/* This method<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+ is only for testing. */ is used by the profile lookup plugin. */
+ is only for
+
+
+/*used to<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ lookup profile from classpath*/ lookup profile from classpath*/
+    lookup profile from directory*/
+
+/*method to<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ lookup profile from classpath*/ lookup profile from classpath
+    return mergeProfiles(profiles);
+}
+
+2.
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+// is used to<extra_id_0>
+
+ create a new profile
+
+    create a new profile create a new profile create a
+
+
+3.
+
+4.
+//used to<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ lookup a profile lookup a profile
+    lookup a profile lookup a profile lookup a profile
+
+
+
+5.
+public static Profile lookup(String name, File directory) throws IOException {
+    //used to<extra_id_0>
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ avoid recursive call
+
+    find profile in classpath find profile in profile file find
+
+
+public static Profile lookup(String name, File directory) throws IOException {
+    /*method to<extra_id_0>
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ read and merge profiles from classpath*/ read and merge profiles from classpath*/
+    lookup profile from
+
+
+6.
+/**used to<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ lookup profile files*/ lookup profile files*/
+    lookup profile files*/ lookup profile file*/
+
+
+
+
+/**
+*This method<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ is used to lookup a profile
+*/ is used to lookup a profile
+*/
+
+
+
+/**
+*The method<extra_id_0>
+public static Profile lookup(String name, File directory) throws IOException {
+    List<Profile> profiles = readProfileFromClasspath(name);
+    File profileFile = findProfileYaml(directory);
+    if (profileFile != null) {
+        List<Profile> fileProfiles = fromYaml(new FileInputStream(profileFile));
+        for (Profile profile : fileProfiles) {
+            if (profile.getName().equals(name)) {
+                profiles.add(profile);
+                break;
+            }
+        }
+    }
+    Collections.sort(profiles, Collections.<Profile>reverseOrder());
+    return mergeProfiles(profiles);
+}
+
+
+ is used to lookup a profile
+*/ to lookup a profile
+*/
+ for lookup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pytest
+1.
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """ This function<extra_id_0>
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+
+ downloads a vimeo channel """ downloads a vimeo channel """, downloads a vimeo url """
+
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """ function to<extra_id_0>
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+
+ download vimeo data by channel """ download vimeo data """
+    download vimeo data """
+
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """ used to<extra_id_0>
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+
+ download vimeo files by channel """ match vimeo url """ download vimeo files by channel """
+
+
+
+""" used to<extra_id_0>
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+
+ download vimeo videos by channel""" download vimeo videos by channel""" = download vimeo videos by
+
+
+ """ function to<extra_id_0>
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+
+ download vimeo videos by channel""" download vimeo videos by channel""", download vimeo videos by
+
+
+ 2.
+ def e(message, exit_code=None):
+    """ function to<extra_id_0>
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+
+
+ print an error message """ print an error message """  print an error message """ print an error
+
+
+ def e(message, exit_code=None):
+    """function to<extra_id_0>"""
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+
+
+ print an error message print an error message
+    print an error message print an error message
+
+
+ 3.
+ def sina_xml_to_url_list(xml_data):
+    """ function to<extra_id_0>
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+
+
+ convert xml to url list """ convert xml to url list """, convert xml to url list """
+
+ def sina_xml_to_url_list(xml_data):
+    """ used to<extra_id_0>
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+
+
+ convert xml to url list """ convert xml to url list """, convert xml to url list """
+
+ 4.
+ def sprint(text, *colors):
+    """ function to<extra_id_0>"""
+    return "}m{content}}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+
+
+ print text with colors print text, *colors): # print text print text with colors print
+
+ def sprint(text, *colors):
+    return "}m{content}}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" used to
+
+
+def print text in terminal"""
+
+   ):
+   :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Summ extract test:
+Origin:
+is only for testing. */ is used by the profile lookup plugin. */
+ is only for
+first result: is only for testing. */ is used by the profile lookup plugin. */
+Denoise1:
+is used by the profile lookup plugin
+Denoise2:
+is only for
+
+Origin:
+ lookup profile from classpath*/ lookup profile from classpath*/
+    lookup profile from directory*/
+Denoise1:
+lookup profile from classpath*/ lookup profile from classpath*/
+Denoise2:
+ lookup profile from classpath*/
+
+ Origin:
+ lookup profile from classpath*/ lookup profile from classpath
+    return mergeProfiles(profiles);
+}
+
+Denoise1:
+lookup profile from classpath*/ lookup profile from classpath
+Denoise2:
+ lookup profile from classpath
+
+
+Origin: 
+create a new profile
+
+    create a new profile create a new profile create a
+
+
+Denoise1: 
+create a new profile create a new profile create a
+Denoise2:
+ create a
+
+
+Origin: 
+ lookup a profile lookup a profile
+    lookup a profile lookup a profile lookup a profile
+
+
+Denoise1: 
+lookup a profile lookup a profile lookup a profile
+Denoise2:
+ lookup a profile
+
+
+Origin: 
+ avoid recursive call
+
+    find profile in classpath find profile in profile file find
+
+Denoise1: 
+find profile in classpath find profile in profile file find
+Denoise2:
+ find profile in 
+
+
+Origin: 
+ read and merge profiles from classpath*/ read and merge profiles from classpath*/
+    lookup profile from
+
+Denoise1: 
+read and merge profiles from classpath*/ read and merge profiles from classpath*/
+Denoise2:
+ read and merge profiles from classpath*/
+
+
+Origin: 
+ is used to lookup a profile
+*/ to lookup a profile
+*/
+ for lookup
+
+Denoise1: 
+is used to lookup a profile
+Denoise2:
+ to lookup a profile
+*/
+
+
+Origin: 
+ downloads a vimeo channel """ downloads a vimeo channel """, downloads a vimeo url """
+Denoise1: 
+downloads a vimeo channel """ downloads a vimeo channel """, downloads a vimeo url """
+Denoise2:
+ downloads a vimeo channel """
+
+
+Origin: 
+ download vimeo data by channel """ download vimeo data """
+    download vimeo data """
+Denoise1: 
+download vimeo data by channel """ download vimeo data """
+Denoise2:
+ download vimeo data """
+
+
+Origin: 
+ download vimeo files by channel """ match vimeo url """ download vimeo files by channel """
+
+Denoise1: 
+download vimeo files by channel """ match vimeo url """ download vimeo files by channel """
+Denoise2:
+ download vimeo files by channel """
+
+
+Origin: 
+ print text with colors print text, *colors): # print text print text with colors print
+Denoise1: 
+No valid comments generated
+Denoise2:
+ print
+
+
+Origin: 
+ print text with colors print text, *colors): # print text print text with colors print
+Denoise1: 
+No valid comments generated
+Denoise2:
+ print
+
+
+Origin: 
+ print text with colors print text, *colors): # print text print text with colors print
+Denoise1: 
+No valid comments generated
+Denoise2:
+ print
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ pytest
+ Origin:
+def sina_xml_to_url_list(xml_data):
+    """str->list
+    Convert XML to URL List.
+    From Biligrab.
+    """
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Preprocess:
+def sina_xml_to_url_list(xml_data):
+    """ function to<extra_id_0>
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+Origin result:  convert xml to url list """ convert xml to url list """, convert xml to url list """
+[' convert xml to url list ', '', '', ' convert xml to url list ', '', '', '', ' convert xml to url list ', '', '', '']
+first result:  convert xml to url list
+Denoised result: ist
+1
+2
+3
+ist
+Final result: Ist .
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Dailymotion videos by URL.
+    """
+
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+
+    mime, ext, size = url_info(real_url)
+
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Preprocess:
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """ function to<extra_id_0>
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+Origin result:  download dailymotion videos """ download dailymotion videos """
+    download dail
+[' download dailymotion videos ', '', '', ' download dailymotion videos ', '', '', '\r', '    download dail']
+first result:  download dailymotion videos
+Denoised result: download dailymotion videos
+1
+2
+3
+download dailymotion videos
+Final result: Download dailymotion videos .
+BLEU-4: 0.2488
+METEOR: 0.6009
+Origin:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """Downloads Sina videos by URL.
+    """
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        #title = match1(video_page, r'title\s*:\s*\'([^\']+)\'')
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Preprocess:
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    """ function to<extra_id_0>
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'#(\d+)')
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+Origin result:  download sina videos """ download sina videos """
+    download sina videos """ download
+[' download sina videos ', '', '', ' download sina videos ', '', '', '\r', '    download sina videos ', '', '', ' download']
+first result:     download sina videos
+Denoised result: download sina videos
+1
+2
+3
+download sina videos
+Final result: Download sina videos .
+BLEU-4: 0.2488
+METEOR: 0.6009
+Origin:
+def sprint(text, *colors):
+    """Format text with color or other effects into ANSI escaped string."""
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Preprocess:
+def sprint(text, *colors):
+    """ function to<extra_id_0>
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+Origin result:  print text with colors """ print text """, print text with colors """ print text with colors """
+[' print text with colors ', '', '', ' print text ', '', '', '', ' print text with colors ', '', '', ' print text with colors ', '', '', '']
+first result:  print text with colors
+Denoised result: print text with colors
+1
+2
+3
+print text with colors
+Final result: Print text with colors .
+BLEU-4: 0.1023
+METEOR: 0.2831
+Origin:
+def print_log(text, *colors):
+    """Print a log message to standard error."""
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+Preprocess:
+def print_log(text, *colors):
+    """ function to<extra_id_0>
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+Origin result:  print log """ print text to stderr """, print log """ print log """ print text to
+[' print log ', '', '', ' print text to stderr ', '', '', '', ' print log ', '', '', ' print log ', '', '', ' print text to']
+first result:  print text to stderr
+Denoised result: print text to stderr
+1
+2
+3
+print text to stderr
+Final result: Print text to stderr .
+BLEU-4: 0.1915
+METEOR: 0.1471
+Origin:
+def e(message, exit_code=None):
+    """Print an error log message."""
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def e(message, exit_code=None):
+    """ function to<extra_id_0>
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Origin result:  print an error message """ print an error message """
+    print an error message """ print
+[' print an error message ', '', '', ' print an error message ', '', '', '\r', '    print an error message ', '', '', ' print']
+first result:     print an error message
+Denoised result: print an error message
+1
+2
+3
+print an error message
+Final result: Print an error message .
+BLEU-4: 0.4949
+METEOR: 0.5889
+Origin:
+def wtf(message, exit_code=1):
+    """What a Terrible Failure!"""
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Preprocess:
+def wtf(message, exit_code=1):
+    """ function to<extra_id_0>
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+Origin result:  print a message """ print a message """
+    print a message to the terminal """ print
+[' print a message ', '', '', ' print a message ', '', '', '\r', '    print a message to the terminal ', '', '', ' print']
+first result:     print a message to the terminal
+Denoised result: print a message to the terminal
+1
+2
+3
+print a message to the terminal
+Final result: Print a message to the terminal .
+BLEU-4: 0.1615
+METEOR: 0.1163
+Origin:
+def detect_os():
+    """Detect operating system.
+    """
+
+    # Inspired by:
+    # https://github.com/scivision/pybashutils/blob/78b7f2b339cb03b1c37df94015098bbe462f8526/pybashutils/windows_linux_detect.py
+
+    syst = system().lower()
+    os = 'unknown'
+
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os = 'mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        # detect WSL https://github.com/Microsoft/BashOnWindows/issues/423
+        try:
+            with open('/proc/version', 'r') as f:
+                if 'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+
+    return os
+Preprocess:
+def detect_os():
+    """ function to<extra_id_0>
+    syst = system().lower()
+    os = 'unknown'
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os = 'mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        try:
+            with open('/proc/version', 'r') as f:
+                if 'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+    return os
+Origin result:  detect the operating system """ detect the operating system """
+    if not system(): return 'unknown'
+[' detect the operating system ', '', '', ' detect the operating system ', '', '', '', '    if not system', '', '', ' return ', 'unknown', '\r']
+first result:  detect the operating system
+Denoised result: detect the operating system
+1
+2
+3
+detect the operating system
+Final result: Detect the operating system .
+BLEU-4: 0.2857
+METEOR: 0.3125
+Origin:
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """str->None"""
+    # https://vimeo.com/channels/464686
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+Preprocess:
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    """ function to<extra_id_0>
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+Origin result:  download vimeo data by channel """ download vimeo data """
+    download vimeo data """
+[' download vimeo data by channel ', '', '', ' download vimeo data ', '', '', '\r', '    download vimeo data ', '', '', '']
+first result:  download vimeo data by channel
+Denoised result: download vimeo data by channel
+1
+2
+3
+download vimeo data by channel
+Final result: Download vimeo data by channel .
+BLEU-4: 0.0000
+METEOR: 0.0000
+Origin:
+def ckplayer_get_info_by_xml(ckinfo):
+    """str->dict
+    Information for CKPlayer API content."""
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  #'duration': 0,
+                  'links': [],
+                  'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:  #title
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+
+    #if dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip():  #duration
+        #video_dict['title'] = dictify(e)['ckplayer']['info'][0]['title'][0]['_text'].strip()
+
+    if '_text' in dictified['video'][0]['size'][0]:  #size exists for 1 piece
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+
+    if '_text' in dictified['video'][0]['file'][0]:  #link exist
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+
+    return video_dict
+Preprocess:
+def ckplayer_get_info_by_xml(ckinfo):
+    """ function to<extra_id_0>
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  'links': [],
+                  'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:  #title
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+    if '_text' in dictified['video'][0]['size'][0]:  #size exists for 1 piece
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+    if '_text' in dictified['video'][0]['file'][0]:  #link exist
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+    return video_dict
+Origin result:  get info by xml """ get info by xml """
+    get info by xml """ get
+[' get info by xml ', '', '', ' get info by xml ', '', '', '\r', '    get info by xml ', '', '', ' get']
+first result:     get info by xml
+Denoised result: get info by xml
+1
+2
+3
+get info by xml
+Final result: Get info by xml .
+BLEU-4: 0.0000
+METEOR: 0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Origin:
+def has_task(self, task_instance):
+        """
+        Checks if a task is either queued or running in this executor
+
+        :param task_instance: TaskInstance
+        :return: True if the task is known to this executor
+        """
+        if task_instance.key in self.queued_tasks or task_instance.key in self.running:
+            return True
+Preprocess:
+def has_task(self, task_instance):
+    """ function to<extra_id_0>
+        if task_instance.key in self.queued_tasks or task_instance.key in self.running:
+            return True
+Origin result:  check if a task is running or queued """ check if a task is running """, check if a
+first result:  check if a task is running or queued
+Denoised result:  is running or queued
+1
+2
+3
+ is running or queued
+Final result:  is running or queued .
+BLEU-4: 0.0062
+METEOR: 0.0870
+
+
+def get_event_buffer(self, dag_ids=None):
+    """ function to<extra_id_0>
+        cleared_events = dict()
+        if dag_ids is None:
+            cleared_events = self.event_buffer
+            self.event_buffer = dict()
+        else:
+            for key in list(self.event_buffer.keys()):
+                dag_id, _, _, _ = key
+                if dag_id in dag_ids:
+                    cleared_events[key] = self.event_buffer.pop(key)
+        return cleared_events
+Origin result:  get the event buffer """ get the event buffer """  get the event buffer """ get the event
+first result:   get the event buffer
+Denoised result: get the event buffer
+1
+2
+3
+get the event buffer
+Final result: Get the event buffer .
+BLEU-4: 0.0001
+METEOR: 0.0244
+
+
