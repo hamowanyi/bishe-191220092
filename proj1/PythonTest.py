@@ -28,8 +28,8 @@ class pythonTest():
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
         i=0
-        set=14000
-        thousand_count=0
+        set=8000
+        thousand_count=4
         print(len(df))
         pb_model=Prompt_base(tokenizer_str='Salesforce/codet5-large',model_str='Salesforce/codet5-large')
         while set+i <len(df):
@@ -47,7 +47,7 @@ class pythonTest():
                 self.savetoFile(thousand_count)
 
     def savetoFile(self,i):
-        filename='result_third'+str(i)+'.jsonl'
+        filename='result2_python'+str(i)+'.jsonl'
         df = pd.DataFrame(self.outputList)
         df.to_json(filename,double_precision=4,orient='records',lines=True)
 
@@ -86,11 +86,11 @@ class javaTest():
                 self.savetoFile(thousand_count)
 
     def savetoFile(self,i):
-        filename='javaresult'+str(i)+'.jsonl'
+        filename='second_result_java'+str(i)+'.jsonl'
         df = pd.DataFrame(self.outputList)
         df.to_json(filename,double_precision=4,orient='records',lines=True)
         
-test1=javaTest()
+test1=pythonTest()
 test1.run()
 test1.savetoFile(0)
 

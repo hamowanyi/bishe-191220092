@@ -1,0 +1,833 @@
+""" function to<extra_id_0>
+def do_one_iteration(self):
+    if self.control_stream:
+        self.control_stream.flush()
+    for stream in self.shell_streams:
+        stream.flush(zmq.POLLIN, 1)
+        stream.flush(zmq.POLLOUT)
+
+
+ do one iteration of the loop do one iteration of the loop
+ do one iteration of the loop
+
+
+def is_event_loop_running_qt4(app=None):
+    """ function to<extra_id_0>
+    if app is None:
+        app = get_app_qt4([''])
+    if hasattr(app, '_in_event_loop'):
+        return app._in_event_loop
+    else:
+        return False
+
+
+ check if event loop is running """ check if event loop is running """4_ check if event loop
+
+
+
+
+ 0
+Ref:
+str->list
+    Convert XML to URL List.
+    From Biligrab.
+Summ:
+Convert xml to url list .
+0.1645
+
+
+
+1
+Ref:
+Downloads Dailymotion videos by URL.
+Summ:
+Download dailymotion videos .
+0.24880000000000002
+
+
+
+2
+Ref:
+Downloads Sina videos by URL.
+Summ:
+Download sina videos .
+0.24880000000000002
+
+
+
+3
+Ref:
+Format text with color or other effects into ANSI escaped string.
+Summ:
+Print text with colors .
+0.1023
+
+
+
+4
+Ref:
+Print a log message to standard error.
+Summ:
+Print text to stderr .
+0.1915
+
+
+
+5
+Ref:
+Print an error log message.
+Summ:
+Print an error message .
+0.4949
+
+
+
+6
+Ref:
+What a Terrible Failure!
+Summ:
+Print a message to the terminal .
+0.1615
+
+
+
+7
+Ref:
+Detect operating system.
+Summ:
+Detect the operating system .
+0.2857
+
+
+
+8
+Ref:
+str->None
+Summ:
+Download vimeo data by channel .
+0
+
+
+
+9
+Ref:
+str->dict
+    Information for CKPlayer API content.
+Summ:
+Get info by xml .
+0
+
+
+
+10
+Ref:
+Splicing URLs according to video ID to get video details
+Summ:
+Get video url from video id .
+0.12510000000000002
+
+
+
+11
+Ref:
+str->list of str
+        Give you the real URLs.
+Summ:
+Get the real url .
+0.1865
+
+
+
+12
+Ref:
+Converts a string to a valid filename.
+Summ:
+Legitimize text .
+0
+
+
+
+13
+Ref:
+Downloads CBS videos by URL.
+Summ:
+Download a CBS video.
+0.24880000000000002
+
+
+
+14
+Ref:
+Override the original one
+        Ugly ugly dirty hack
+Summ:
+Download the video .
+0.11750000000000001
+
+
+
+15
+Ref:
+str, str, str, bool, bool ->None
+
+    Download Acfun video by vid.
+
+    Call Acfun API, decide which site to use, and pass the job to its
+    extractor.
+Summ:
+Download acfun videos by vid .
+0.0082
+
+
+
+16
+Ref:
+Scans through a string for substrings matched some patterns.
+
+    Args:
+        text: A string to be scanned.
+        patterns: a list of regex pattern.
+
+    Returns:
+        a list if matched. empty if not.
+Summ:
+Match all patterns in text .
+0
+
+
+
+17
+Ref:
+Parses the query string of a URL and returns the value of a parameter.
+
+    Args:
+        url: A URL.
+        param: A string representing the name of the parameter.
+
+    Returns:
+        The value of the parameter.
+Summ:
+Parse query param .
+0.0002
+
+
+
+18
+Ref:
+Gets the content of a URL via sending a HTTP GET request.
+
+    Args:
+        url: A URL.
+        headers: Request headers used by the client.
+        decoded: Whether decode the response body using UTF-8 or the charset specified in Content-Type.
+
+    Returns:
+        The content as a string.
+Summ:
+Get content.
+0
+
+
+
+19
+Ref:
+Post the content of a URL via sending a HTTP POST request.
+
+    Args:
+        url: A URL.
+        headers: Request headers used by the client.
+        decoded: Whether decode the response body using UTF-8 or the charset specified in Content-Type.
+
+    Returns:
+        The content as a string.
+Summ:
+Get content from a url .
+0.0005
+
+
+
+20
+Ref:
+Parses host name and port number from a string.
+Summ:
+Parse host .
+0.0553
+
+
+
+21
+Ref:
+str->str
+Summ:
+Get roomid by room url key .
+0
+
+
+
+22
+Ref:
+JSON, int, int, int->str
+
+    Get a proper title with courseid+topicID+partID.
+Summ:
+Get title .
+0.0471
+
+
+
+23
+Ref:
+int->None
+
+    Download a WHOLE course.
+    Reuse the API call to save time.
+Summ:
+Download wanmen by course .
+0.059300000000000005
+
+
+
+24
+Ref:
+int, int, int->None
+
+    Download ONE PART of the course.
+Summ:
+Download wanmen .
+0.0553
+
+
+
+25
+Ref:
+Checks if a task is either queued or running in this executor
+
+        :param task_instance: TaskInstance
+        :return: True if the task is known to this executor
+Summ:
+Check if a task is running or queued .
+0.0741
+
+
+
+26
+Ref:
+Returns and flush the event buffer. In case dag_ids is specified
+        it will only return and flush events for the given dag_ids. Otherwise
+        it returns and flushes all
+
+        :param dag_ids: to dag_ids to return events for, if None returns all
+        :return: a dict of events        it returns and flushes all
+Summ:
+Get the event buffer .
+0.0
+
+
+
+27
+Ref:
+Returns a snowflake.connection object
+Summ:
+Get a connection .
+0.3195
+
+
+
+28
+Ref:
+returns aws_access_key_id, aws_secret_access_key
+        from extra
+
+        intended to be used by external import and export statements        from extra        intended to be used by external import and export statements
+Summ:
+Get aws credentials .
+0
+
+
+
+29
+Ref:
+Fetches a field from extras, and returns it. This is some Airflow
+        magic. The grpc hook type adds custom UI elements
+        to the hook page, which allow admins to specify scopes, credential pem files, etc.
+        They get formatted as shown below.
+Summ:
+Get a field from the grpc message .
+0.0053
+
+
+
+30
+Ref:
+Executes SQL using psycopg2 copy_expert method.
+        Necessary to execute COPY command without access to a superuser.
+
+        Note: if this method is called with a "COPY FROM" statement and
+        the specified input file does not exist, it creates an empty
+        file and no data is loaded, but the operation succeeds.
+        So if users want to be aware when the input file does not exist,
+        they have to check its existence by themselves.
+Summ:
+Copy an expert to a file .
+0.0
+
+
+
+31
+Ref:
+Dumps a database table into a tab-delimited file
+Summ:
+Bulk dump a table .
+0.1568
+
+
+
+32
+Ref:
+Uploads the file to Google cloud storage
+Summ:
+Execute the task .
+0.1509
+
+
+
+33
+Ref:
+Gets the max partition for a table.
+
+    :param schema: The hive schema the table lives in
+    :type schema: str
+    :param table: The hive table you are interested in, supports the dot
+        notation as in "my_database.my_table", if a dot is found,
+        the schema param is disregarded
+    :type table: str
+    :param metastore_conn_id: The hive connection you are interested in.
+        If your default is set you don't need to use this parameter.
+    :type metastore_conn_id: str
+    :param filter_map: partition_key:partition_value map used for partition filtering,
+                       e.g. {'key1': 'value1', 'key2': 'value2'}.
+                       Only partitions matching all partition_key:partition_value
+                       pairs will be considered as candidates of max partition.
+    :type filter_map: map
+    :param field: the field to get the max value from. If there's only
+        one partition field, this will be inferred
+    :type field: str
+
+    >>> max_partition('airflow.static_babynames_partitioned')
+    '2015-01-01'
+Summ:
+Get the max partition .
+0.0
+
+
+
+34
+Ref:
+Returns a mysql connection object
+Summ:
+Get a MySQL connection .
+0.2857
+
+
+
+35
+Ref:
+Returns the state of a TaskInstance at the command line.
+    >>> airflow task_state tutorial sleep 2015-01-01
+    success
+Summ:
+Get task state .
+0.012400000000000001
+
+
+
+36
+Ref:
+Runs forever, monitoring the child processes of @gunicorn_master_proc and
+    restarting workers occasionally.
+    Each iteration of the loop traverses one edge of this state transition
+    diagram, where each state (node) represents
+    [ num_ready_workers_running / num_workers_running ]. We expect most time to
+    be spent in [n / n]. `bs` is the setting webserver.worker_refresh_batch_size.
+    The horizontal transition at ? happens after the new worker parses all the
+    dags (so it could take a while!)
+       V ────────────────────────────────────────────────────────────────────────┐
+    [n / n] ──TTIN──> [ [n, n+bs) / n + bs ]  ────?───> [n + bs / n + bs] ──TTOU─┘
+       ^                          ^───────────────┘
+       │
+       │      ┌────────────────v
+       └──────┴────── [ [0, n) / n ] <─── start
+    We change the number of workers by sending TTIN and TTOU to the gunicorn
+    master process, which increases and decreases the number of child workers
+    respectively. Gunicorn guarantees that on TTOU workers are terminated
+    gracefully and that the oldest worker is terminated.    restarting workers occasionally.
+Summ:
+Restart workers restart gunicorn workers .
+0.0
+
+
+
+37
+Ref:
+Retrieves connection to Cloud Translate
+
+        :return: Google Cloud Translate client object.
+        :rtype: Client
+Summ:
+Def get a connection .
+0.0485
+
+
+
+38
+Ref:
+Translate a string or list of strings.
+
+        See https://cloud.google.com/translate/docs/translating-text
+
+        :type values: str or list
+        :param values: String or list of strings to translate.
+
+        :type target_language: str
+        :param target_language: The language to translate results into. This
+                                is required by the API and defaults to
+                                the target language of the current instance.
+
+        :type format_: str
+        :param format_: (Optional) One of ``text`` or ``html``, to specify
+                        if the input text is plain text or HTML.
+
+        :type source_language: str or None
+        :param source_language: (Optional) The language of the text to
+                                be translated.
+
+        :type model: str or None
+        :param model: (Optional) The model used to translate the text, such
+                      as ``'base'`` or ``'nmt'``.
+
+        :rtype: str or list
+        :returns: A list of dictionaries for each queried value. Each
+                  dictionary typically contains three keys (though not
+                  all will be present in all cases)
+
+                  * ``detectedSourceLanguage``: The detected language (as an
+                    ISO 639-1 language code) of the text.
+                  * ``translatedText``: The translation of the text into the
+                    target language.
+                  * ``input``: The corresponding input value.
+                  * ``model``: The model used to translate the text.
+
+                  If only a single value is passed, then only a single
+                  dictionary will be returned.
+        :raises: :class:`~exceptions.ValueError` if the number of
+                 values and translations differ.
+Summ:
+Function to translate values .
+3.556e-18
+
+
+
+39
+Ref:
+Retrieves a resource containing information about a Cloud SQL instance.
+
+        :param instance: Database instance ID. This does not include the project ID.
+        :type instance: str
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: A Cloud SQL instance resource.
+        :rtype: dict
+Summ:
+Get instance .
+0.0
+
+
+
+40
+Ref:
+Creates a new Cloud SQL instance.
+
+        :param body: Body required by the Cloud SQL insert API, as described in
+            https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/insert#request-body.
+        :type body: dict
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: None
+Summ:
+Create an instance .
+0
+
+
+
+41
+Ref:
+Updates settings of a Cloud SQL instance.
+
+        Caution: This is not a partial update, so you must include values for
+        all the settings that you want to retain.
+
+        :param body: Body required by the Cloud SQL patch API, as described in
+            https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/patch#request-body.
+        :type body: dict
+        :param instance: Cloud SQL instance ID. This does not include the project ID.
+        :type instance: str
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: None
+Summ:
+Patch an instance .
+0.0
+
+
+
+42
+Ref:
+Deletes a Cloud SQL instance.
+
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :param instance: Cloud SQL instance ID. This does not include the project ID.
+        :type instance: str
+        :return: None
+Summ:
+Delete an instance .
+0.0
+
+
+
+43
+Ref:
+Retrieves a database resource from a Cloud SQL instance.
+
+        :param instance: Database instance ID. This does not include the project ID.
+        :type instance: str
+        :param database: Name of the database in the instance.
+        :type database: str
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: A Cloud SQL database resource, as described in
+            https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/databases#resource.
+        :rtype: dict
+Summ:
+Get a database .
+0.0
+
+
+
+44
+Ref:
+Creates a new database inside a Cloud SQL instance.
+
+        :param instance: Database instance ID. This does not include the project ID.
+        :type instance: str
+        :param body: The request body, as described in
+            https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/databases/insert#request-body.
+        :type body: dict
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: None
+Summ:
+Create a database .
+0.0
+
+
+
+45
+Ref:
+Updates a database resource inside a Cloud SQL instance.
+
+        This method supports patch semantics.
+        See https://cloud.google.com/sql/docs/mysql/admin-api/how-tos/performance#patch.
+
+        :param instance: Database instance ID. This does not include the project ID.
+        :type instance: str
+        :param database: Name of the database to be updated in the instance.
+        :type database: str
+        :param body: The request body, as described in
+            https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/databases/insert#request-body.
+        :type body: dict
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: None
+Summ:
+Patch a database .
+0.0
+
+
+
+46
+Ref:
+Deletes a database from a Cloud SQL instance.
+
+        :param instance: Database instance ID. This does not include the project ID.
+        :type instance: str
+        :param database: Name of the database to be deleted in the instance.
+        :type database: str
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: None
+Summ:
+Delete a database .
+0.0
+
+
+
+47
+Ref:
+Exports data from a Cloud SQL instance to a Cloud Storage bucket as a SQL dump
+        or CSV file.
+
+        :param instance: Database instance ID of the Cloud SQL instance. This does not include the
+            project ID.
+        :type instance: str
+        :param body: The request body, as described in
+            https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#request-body
+        :type body: dict
+        :param project_id: Project ID of the project that contains the instance. If set
+            to None or missing, the default project_id from the GCP connection is used.
+        :type project_id: str
+        :return: None
+Summ:
+Export an instance .
+0.0
+
+
+
+48
+Ref:
+Starts Cloud SQL Proxy.
+
+        You have to remember to stop the proxy if you started it!
+Summ:
+Start the sql proxy .
+0.0317
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+js test:
+func NewSTM(c *v3.Client, apply func(STM) error, so ...stmOption) (*v3.TxnResponse, error) {
+    /*function to<extra_id_0>
+	opts := &stmOptions{ctx: c.Ctx()}
+	for _, f := range so {
+		f(opts)
+	}
+	if len(opts.prefetch) != 0 {
+		f := apply
+		apply = func(s STM) error {
+			s.Get(opts.prefetch...)
+			return f(s)
+		}
+	}
+	return runSTM(mkSTM(c, opts), apply)
+}
+
+
+ be called by caller*/ create and apply STM*/
+	/*prepare options*/ create and apply
+
+
+
+func NewSTM(c *v3.Client, apply func(STM) error, so ...stmOption) (*v3.TxnResponse, error) {
+    /*method to<extra_id_0>
+	opts := &stmOptions{ctx: c.Ctx()}
+	for _, f := range so {
+		f(opts)
+	}
+	if len(opts.prefetch) != 0 {
+		f := apply
+		apply = func(s STM) error {
+			s.Get(opts.prefetch...)
+			return f(s)
+		}
+	}
+	return runSTM(mkSTM(c, opts), apply)
+}
+
+
+ create a new STM*/ create a new STM*/
+	// create a new STM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+java test
+protected final void fastPathOrderedEmit(U value, boolean delayError, Disposable disposable) {
+        final Observer<? super V> observer = downstream;
+        final SimplePlainQueue<U> q = queue;
+        if (wip.get() == 0 && wip.compareAndSet(0, 1)) {
+            if (q.isEmpty()) {
+                accept(observer, value);
+                if (leave(-1) == 0) {
+                    return;
+                }
+            } else {
+                q.offer(value);
+            }
+        } else {
+            q.offer(value);
+            if (!enter()) {
+                return;
+            }
+        }
+        QueueDrainHelper.drainLoop(q, observer, delayError, disposable, this);
+
+        /* used to<extra_id_0>
+    }
+
+
+ be synchronized */ check for concurrent modification */
+
+

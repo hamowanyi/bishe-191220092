@@ -1,5 +1,5 @@
 import re
-
+import string
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 from nltk.translate.meteor_score import meteor_score
 from nltk.translate.bleu_score import sentence_bleu
@@ -27,6 +27,7 @@ class Prompt_base():
         if torch.cuda.is_available():
             self.model = self.model.cuda()
 
+
     def all_block(self,str,c=' '):
         if len(str)>=2:
             str=str[1:len(str)]
@@ -51,14 +52,86 @@ class Prompt_base():
             start += len(sub)
 
     def string_split(self,str):
-        return re.split("[,*#'./\"\n(){}+-=_@!><&]", str)
+        return re.split("[,:;*#'./\"\n(){}+-=_@!><&]", str)
+
+    def get_first_char(self, str):
+        for i in range(len(str)):
+            if str[i] != ' ':
+                if str[i] in string.ascii_uppercase:
+                    return True, False
+                elif str[i] in string.ascii_lowercase:
+                    return False, True
+        return False, False
+
+    def judge_end(self, str, i):
+        if i < len(str) - 1:
+            if str[i + 1] in string.ascii_lowercase:
+                return False
+            else:
+                return True
+        else:
+            return True
+
+    def check_useful(self, str):
+        text = ''':;*#'/\"\n(){}-!><&'''
+        for c in text:
+            if c in str:
+                return False
+        return True
+
+    def ref_preprocess(self, ref):
+        sList = ref.split('\n')
+        res = ''
+        if len(sList) > 1:
+            i0 = 0
+            while i0 < len(sList):
+                if not self.check_useful(sList[i0]):
+                    i0 = i0 + 1
+                    continue
+                if len(sList[i0]) == 0:
+                    i0 = i0 + 1
+                    continue
+                is_upper, is_lower = self.get_first_char(sList[i0])
+                if is_lower and not is_upper:
+                    i1 = sList[i0].find('.')
+                    if i1 != -1 and self.judge_end(sList[i0], i1):
+                        res = res + sList[i0][:i1 + 1]
+                        break
+                    else:
+                        res = res + sList[i0]
+                    i0 = i0 + 1
+                elif is_upper and not is_lower:
+                    if len(res) > 0:
+                        break
+                    else:
+                        i2 = sList[i0].find('.')
+                        if i2 == -1:
+                            res = res + sList[i0]
+                        else:
+                            if self.judge_end(sList[i0], i2):
+                                res = res + sList[i0][:i2 + 1]
+                                break
+                        i0 = i0 + 1
+                else:
+                    i0 = i0 + 1
+                    continue
+
+        if len(res) == 0:
+            return ref
+        # clear blocks
+        i2 = 0
+        while i2 < len(res):
+            if res[i2] != ' ':
+                break
+            else:
+                i2 = i2 + 1
+        res = res[i2:]
+        return res
 
     def code_preprocess_python(self,code):
         sum_symbol = '''"""'''
-
-        #code=code.replace('\n','\r\n')
+        #sum with " " "
         pos = self.find_all(code, sum_symbol)
-        #maybe have sum:
         if len(pos)>1:
             replaceList=[]
             i=0
@@ -85,8 +158,39 @@ class Prompt_base():
                     code=code[:id[0]]
                 i-=1
 
-        pos = self.find_all(code, '#')
 
+        sum_symbol = "'''"
+        # sum with ' ' '
+        pos = self.find_all(code, sum_symbol)
+        if len(pos) > 1:
+            replaceList = []
+            i = 0
+            # record begin_position of sum
+            while i < len(pos) - 1:
+                i1 = pos[i] - 1
+                while i1 >= 0:
+                    if code[i1] == ' ':
+                        i1 = i1 - 1
+                    else:
+                        break
+                if code[i1] == '\n':
+                    replaceList.append([i1 + 1, pos[i + 1] + 2])
+                    i = i + 2
+                else:
+                    i = i + 1
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+
+        #sum with #
+        pos = self.find_all(code, '#')
         if len(pos) >= 1:
             replaceList = []
             i = 0
@@ -116,7 +220,7 @@ class Prompt_base():
                     code = code[:id[0]]
                 i -= 1
 
-        #print(code)
+
         #del blocks
         pos=self.find_all(code,'\n')
         replaceList=[]
@@ -273,8 +377,6 @@ class Prompt_base():
         if result.find('.') != -1:
             sList = result.split('.')
             result = max(sList, key=len, default='')
-        if result.find(' is ')!= -1:
-            result=result[result.find(' is '):]
 
         result_denoised=result
         return result_denoised
@@ -316,7 +418,7 @@ class Prompt_base():
     def run(self,input):
         self.text=input[0]
         self.reference.clear()
-        preprocess_ref = input[1]
+        preprocess_ref = self.ref_preprocess(input[1])
         if self.language=='java' and input[1].find('@')!=-1:
             preprocess_ref=input[1][:input[1].find('@')]
             if len(preprocess_ref)==0:
@@ -357,5 +459,5 @@ class Prompt_base():
         self.score["BLEU-4"]=sentence_bleu(ref,can,smoothing_function=SF.method2)
         self.score["METEOR"]=meteor_score(ref,can)
         #print(self.score)
-        return {"code": self.text, "reference": self.reference[0], "result": self.result_standardized,"score": [self.score["BLEU-4"],self.score["METEOR"]]}
+        return {"code": self.text, "code-length":self.input_size,"reference": self.reference[0], "result": self.result_standardized,"score": [self.score["BLEU-4"],self.score["METEOR"]]}
 
