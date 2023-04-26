@@ -13,7 +13,7 @@ import torch.utils.data as Data
 
 
 class Prompt_base():
-    def __init__(self,tokenizer_str='Salesforce/codet5-large',model_str='Salesforce/codet5-large',language='python',test=False):
+    def __init__(self,tokenizer_str='Salesforce/codet5-large',model_str='Salesforce/codet5-large',language='python',test=False,skipTokens=True):
         self.text=''
         self.input_size=0
         self.reference=[]
@@ -24,6 +24,7 @@ class Prompt_base():
         self.score={}
         self.test=test
         self.language=language
+        self.skip=skipTokens
         if torch.cuda.is_available():
             self.model = self.model.cuda()
 
@@ -327,6 +328,39 @@ class Prompt_base():
                     code = code[:id[0]]
                 i -= 1
 
+        '''pos = self.find_all(code, '@')
+        # maybe have //:
+        if len(pos) >= 1:
+            replaceList = []
+            i = 0
+            # record begin_position of sum
+            while i < len(pos):
+                i1 = pos[i] - 1
+                while i1 >= 0:
+                    if code[i1] == ' ':
+                        i1 = i1 - 1
+                    else:
+                        break
+                i2 = i1 + 1
+                while i2 < len(code):
+                    if code[i2] != '\n':
+                        i2 = i2 + 1
+                    else:
+                        break
+                replaceList.append([i1 + 1, i2 - 1])
+                i = i + 1
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+'''
+
+
         #del blocks
         pos=self.find_all(code,'\n')
         replaceList=[]
@@ -341,28 +375,57 @@ class Prompt_base():
 
         return code
 
+    def code_preprocess_js(self,code):
+        return self.code_preprocess_java(code)
+
     def set_prompt_java(self,code,type=1):
         if type==0:
-            code = code + '''\n\n/*method to'''
+            code = code + '''\n\n/*is used to'''
         elif type==1:
-            replaceID=code.find('\n')+5
-            if replaceID<len(code):
-                code=code[:replaceID]+'''/*method to<extra_id_0>\n    '''+code[replaceID:]
-        elif type==2:
-            replaceID = code.find('\n') + 5
-            if replaceID < len(code):
-                code = code[:replaceID] + '''//used to<extra_id_0>\n    ''' + code[replaceID:]
+            replaceID=code.find('{\n')
+            if replaceID==-1:
+                code='''/*is used to<extra_id_0>\n'''+code
+            elif replaceID<len(code):
+                replaceID = replaceID + 2
+                count = 0
+                while replaceID < len(code):
+                    if code[replaceID] == ' ':
+                        count = count + 1
+                        replaceID = replaceID + 1
+                    else:
+                        break
+                blocks = ''
+                for i in range(count):
+                    blocks = blocks + ' '
+                if replaceID < len(code):
+                    code = code[:replaceID] + '''/*is used to<extra_id_0>\n''' + blocks + code[replaceID:]
+                else:
+                    code='''/*is used to<extra_id_0>\n'''+code
         elif type==3:
-            code='''/*method to<extra_id_0>\n'''+code
+            code='''/*is used to<extra_id_0>\n'''+code
         code = code.replace('\n', '\r\n')
         return code
 
-    def denoise(self,result,type=0):
-        sList = self.string_split(result)
-        #print(sList)
-        result = max(sList, key=len, default='')
-        #print("first result: "+result)
-        sList = result.split('  ')
+    def set_prompt_js(self,code,type=1):
+        return self.set_prompt_java(code,type)
+
+    def denoise(self,result):
+        if self.skip:
+            sList = self.string_split(result)
+            result = max(sList, key=len, default='')
+        else:
+            sList=result.split('<extra_id_')
+            for i in range(len(sList)):
+                cut=sList[i].find('>')
+                if cut==-1:
+                    continue
+                else:
+                    str=sList[i][cut+1:]
+                    strList=self.string_split(str)
+                    str=max(strList, key=len, default='')
+                    sList[i]=str
+            result=max(sList,key=len,default='')
+
 
         if len(result)<=2:
             result='No valid comments generated'
@@ -413,7 +476,7 @@ class Prompt_base():
         if torch.cuda.is_available():
             input_ids=input_ids.cuda()
         generated_ids = self.model.generate(input_ids, max_length=25)
-        self.result=self.tokenizer.decode(generated_ids[0],skip_special_tokens=True)
+        self.result=self.tokenizer.decode(generated_ids[0],skip_special_tokens=self.skip)
 
     def run(self,input):
         self.text=input[0]
@@ -432,7 +495,7 @@ class Prompt_base():
                 self.text=self.set_prompt_python(self.text)
             elif self.language=='java':
                 self.text = self.code_preprocess_java(self.text)
-                self.text = self.set_prompt_java(self.text)
+                self.text = self.set_prompt_java(self.text,type=3)
         #print('Preprocess:\n'+self.text)
 
 

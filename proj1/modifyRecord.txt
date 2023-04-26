@@ -830,4 +830,110 @@ protected final void fastPathOrderedEmit(U value, boolean delayError, Disposable
 
  be synchronized */ check for concurrent modification */
 
+/*used to<extra_id_0>
+protected final void fastPathOrderedEmit(U value, boolean delayError, Disposable disposable) {
+        final Observer<? super V> observer = downstream;
+        final SimplePlainQueue<U> q = queue;
+        if (wip.get() == 0 && wip.compareAndSet(0, 1)) {
+            if (q.isEmpty()) {
+                accept(observer, value);
+                if (leave(-1) == 0) {
+                    return;
+                }
+            } else {
+                q.offer(value);
+            }
+        } else {
+            q.offer(value);
+            if (!enter()) {
+                return;
+            }
+        }
+        QueueDrainHelper.drainLoop(q, observer, delayError, disposable, this);
+    }
 
+
+<pad><extra_id_0> emit fast paths*/<extra_id_1> emit fast paths*/<extra_id_2>
+    }</s>
+
+
+
+ @CheckReturnValue
+    @SchedulerSupport(SchedulerSupport.NONE)
+    public final Observable<T> sorted(Comparator<? super T> sortFunction) {
+        /*method to<extra_id_0>
+        ObjectHelper.requireNonNull(sortFunction, "sortFunction is null");
+        return toList().toObservable().map(Functions.listSorter(sortFunction)).flatMapIterable(Functions.<List<T>>identity());
+    }
+Ref:
+Returns an Observable that emits the events emitted by source ObservableSource, in a
+sorted order based on a specified comparison function.
+
+<p>Note that calling {
+Summ:
+Public be called by the scheduler.
+0.0097
+
+
+public static <T> ConnectableObservable<T> observeOn(final ConnectableObservable<T> co, final Scheduler scheduler) {
+        /*method to<extra_id_0>
+        final Observable<T> observable = co.observeOn(scheduler);
+        return RxJavaPlugins.onAssembly(new Replay<T>(co, observable));
+    }
+Ref:
+Child Observers will observe the events of the ConnectableObservable on the
+specified scheduler.
+
+Summ:
+Observe on the observable.
+0.0476
+
+
+@CheckReturnValue
+    @NonNull
+    public static <T> UnicastProcessor<T> create(int capacityHint, Runnable onCancelled) {
+        /*method to<extra_id_0>
+        ObjectHelper.requireNonNull(onCancelled, "onTerminate");
+        return new UnicastProcessor<T>(capacityHint, onCancelled);
+    }
+Ref:
+Creates an UnicastProcessor with the given internal buffer capacity hint and a callback for
+the case when the single Subscriber cancels its subscription.
+
+<p>The callback, if not null, is called exactly once and
+non-overlapped with any active replay.
+
+
+Summ:
+Be overridden.
+0
+
+
+
+@CheckReturnValue
+    @NonNull
+    @SchedulerSupport(SchedulerSupport.NONE)
+    public static <T> Maybe<T> fromCompletable(CompletableSource completableSource) {
+        /*method to<extra_id_0>
+        ObjectHelper.requireNonNull(completableSource, "completableSource is null");
+        return RxJavaPlugins.onAssembly(new MaybeFromCompletable<T>(completableSource));
+    }
+Ref:
+Wraps a CompletableSource into a Maybe.
+
+<dl>
+<dt><b>Scheduler:</b></dt>
+<dd>{
+Summ:
+Be called on completable source.
+0
+
+
+
+public static <T, U> Function<T, U> castFunction(Class<U> target) {
+        /*is used to<extra_id_0>
+        return new CastToClass<T, U>(target);
+    }
+
+
+cast the function to the target class

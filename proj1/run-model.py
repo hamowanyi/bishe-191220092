@@ -2,7 +2,8 @@ from transformers import AutoTokenizer, T5ForConditionalGeneration
 tokenizer = AutoTokenizer.from_pretrained("Salesforce/codet5-large")
 model = T5ForConditionalGeneration.from_pretrained("Salesforce/codet5-large")
 
-text='''protected final void fastPathOrderedEmit(U value, boolean delayError, Disposable disposable) {
+text='''/*is used to<extra_id_0>
+protected final void fastPathOrderedEmit(U value, boolean delayError, Disposable disposable) {
         final Observer<? super V> observer = downstream;
         final SimplePlainQueue<U> q = queue;
         if (wip.get() == 0 && wip.compareAndSet(0, 1)) {
@@ -21,8 +22,6 @@ text='''protected final void fastPathOrderedEmit(U value, boolean delayError, Di
             }
         }
         QueueDrainHelper.drainLoop(q, observer, delayError, disposable, this);
-
-        /* used to<extra_id_0>
     }'''
 #Returns a dictionary from a URL params
 text=text.replace('\n','\r\n')
@@ -31,4 +30,4 @@ input_ids = tokenizer(text, return_tensors="pt").input_ids
 
 # simply generate a single sequence
 generated_ids = model.generate(input_ids, max_length=25)
-print(tokenizer.decode(generated_ids[0], skip_special_tokens=True))
+print(tokenizer.decode(generated_ids[0], skip_special_tokens=False))
