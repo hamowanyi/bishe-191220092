@@ -115,7 +115,7 @@ class jsTest():
             X = df.loc[set + i]
             X = X.values
             X.tolist()
-            # print(X[0])
+            #print(X[0])
             self.outputList.append(pb_model.run([X[0], X[1]]))
             i = i + 1
             if i == 2000:

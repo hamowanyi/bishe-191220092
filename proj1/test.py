@@ -34,7 +34,7 @@ class scoreTest():
             i=i+1
 
     def get_all_into_count(self):
-        self.run('results/javaresult1.jsonl')
+        self.run('jsresult1_0.jsonl')
         #self.run('results/javaresult1.jsonl')
         print(self.mean(self.BLEUList))
         print(self.mean(self.METEORList))
@@ -87,3 +87,7 @@ scoreTest().get_all_into_count()
 #0.078818
 #0.10559973528069304
 #0.16156063897763648
+
+#js1:
+#0.06693922819811621
+#0.09570370707991528

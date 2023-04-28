@@ -38,7 +38,6 @@ class Prompt_base():
             if str[i]!=c:
                 return False
         return True
-
     def find_all(self,string, sub,beg=0,end=0):
         if end==0:
             end=len(string)
@@ -51,10 +50,8 @@ class Prompt_base():
                 return pos
             pos.append(start)
             start += len(sub)
-
     def string_split(self,str):
         return re.split("[,:;*#'./\"\n(){}+-=_@!><&]", str)
-
     def get_first_char(self, str):
         for i in range(len(str)):
             if str[i] != ' ':
@@ -63,7 +60,6 @@ class Prompt_base():
                 elif str[i] in string.ascii_lowercase:
                     return False, True
         return False, False
-
     def judge_end(self, str, i):
         if i < len(str) - 1:
             if str[i + 1] in string.ascii_lowercase:
@@ -72,13 +68,13 @@ class Prompt_base():
                 return True
         else:
             return True
-
     def check_useful(self, str):
         text = ''':;*#'/\"\n(){}-!><&'''
         for c in text:
             if c in str:
                 return False
         return True
+
 
     def ref_preprocess(self, ref):
         sList = ref.split('\n')
@@ -128,6 +124,7 @@ class Prompt_base():
                 i2 = i2 + 1
         res = res[i2:]
         return res
+
 
     def code_preprocess_python(self,code):
         sum_symbol = '''"""'''
@@ -235,6 +232,253 @@ class Prompt_base():
             i=i-1
 
         return code
+    def code_preprocess_java(self, code):
+        sum_symbol = '/*'
+        pos = self.find_all(code, sum_symbol)
+        # maybe have sum:
+        if len(pos) >= 1:
+            replaceList = []
+            i_head = 0
+            while i_head < len(pos):
+                i_tail = code.find('*/', pos[i_head] + 2)
+                if i_tail != -1:
+                    replaceList.append([pos[i_head], i_tail + 1])
+                else:
+                    break
+                i_head = i_head + 1
+
+            # record begin_position of sum
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+        pos = self.find_all(code, '//')
+        # maybe have //:
+        if len(pos) >= 1:
+            replaceList = []
+            i = 0
+            # record begin_position of sum
+            while i < len(pos):
+                i1 = pos[i] - 1
+                while i1 >= 0:
+                    if code[i1] == ' ':
+                        i1 = i1 - 1
+                    else:
+                        break
+                i2 = i1 + 1
+                while i2 < len(code):
+                    if code[i2] != '\n':
+                        i2 = i2 + 1
+                    else:
+                        break
+                replaceList.append([i1 + 1, i2 - 1])
+                i = i + 1
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+        # del blocks
+        pos = self.find_all(code, '\n')
+        replaceList = []
+        i = 0
+        for i in range(len(pos) - 1):
+            if self.all_block(code[pos[i]:pos[i + 1]]):
+                replaceList.append(pos[i + 1])
+        i = len(replaceList) - 1
+        while i >= 0:
+            code = code[:replaceList[i]] + code[replaceList[i] + 1:]
+            i = i - 1
+
+        return code
+    def code_preprocess_js(self, code):
+        return self.code_preprocess_java(code)
+    def code_preprocess_go(self, code):
+        return self.code_preprocess_java(code)
+    def code_preprocess_php(self, code):
+        sum_symbol = '/*'
+        pos = self.find_all(code, sum_symbol)
+        # maybe have sum:
+        if len(pos) >= 1:
+            replaceList = []
+            i_head = 0
+            while i_head < len(pos):
+                i_tail = code.find('*/', pos[i_head] + 2)
+                if i_tail != -1:
+                    replaceList.append([pos[i_head], i_tail + 1])
+                else:
+                    break
+                i_head = i_head + 1
+
+            # record begin_position of sum
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+        pos = self.find_all(code, '//')
+        # maybe have //:
+        if len(pos) >= 1:
+            replaceList = []
+            i = 0
+            # record begin_position of sum
+            while i < len(pos):
+                i1 = pos[i] - 1
+                while i1 >= 0:
+                    if code[i1] == ' ':
+                        i1 = i1 - 1
+                    else:
+                        break
+                i2 = i1 + 1
+                while i2 < len(code):
+                    if code[i2] != '\n':
+                        i2 = i2 + 1
+                    else:
+                        break
+                replaceList.append([i1 + 1, i2 - 1])
+                i = i + 1
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+        pos = self.find_all(code, '#')
+        # maybe have #:
+        if len(pos) >= 1:
+            replaceList = []
+            i = 0
+            # record begin_position of sum
+            while i < len(pos):
+                i1 = pos[i] - 1
+                while i1 >= 0:
+                    if code[i1] == ' ':
+                        i1 = i1 - 1
+                    else:
+                        break
+                i2 = i1 + 1
+                while i2 < len(code):
+                    if code[i2] != '\n':
+                        i2 = i2 + 1
+                    else:
+                        break
+                replaceList.append([i1 + 1, i2 - 1])
+                i = i + 1
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+        # del blocks
+        pos = self.find_all(code, '\n')
+        replaceList = []
+        i = 0
+        for i in range(len(pos) - 1):
+            if self.all_block(code[pos[i]:pos[i + 1]]):
+                replaceList.append(pos[i + 1])
+        i = len(replaceList) - 1
+        while i >= 0:
+            code = code[:replaceList[i]] + code[replaceList[i] + 1:]
+            i = i - 1
+
+        return code
+    def code_preprocess_ruby(self, code):
+        sum_symbol = '=begin'
+        pos = self.find_all(code, sum_symbol)
+        # maybe have sum:
+        if len(pos) >= 1:
+            replaceList = []
+            i_head = 0
+            while i_head < len(pos):
+                i_tail = code.find('=end', pos[i_head] + 2)
+                if i_tail != -1:
+                    replaceList.append([pos[i_head], i_tail + 1])
+                else:
+                    break
+                i_head = i_head + 1
+
+            # record begin_position of sum
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+
+        pos = self.find_all(code, '#')
+        # maybe have #:
+        if len(pos) >= 1:
+            replaceList = []
+            i = 0
+            # record begin_position of sum
+            while i < len(pos):
+                i1 = pos[i] - 1
+                while i1 >= 0:
+                    if code[i1] == ' ':
+                        i1 = i1 - 1
+                    else:
+                        break
+                i2 = i1 + 1
+                while i2 < len(code):
+                    if code[i2] != '\n':
+                        i2 = i2 + 1
+                    else:
+                        break
+                replaceList.append([i1 + 1, i2 - 1])
+                i = i + 1
+            i = len(replaceList) - 1
+            # del sum
+            while i >= 0:
+                id = replaceList[i]
+                if (id[1] < len(code) - 1):
+                    code = code[:id[0]] + code[id[1] + 1:]
+                else:
+                    code = code[:id[0]]
+                i -= 1
+
+        # del blocks
+        pos = self.find_all(code, '\n')
+        replaceList = []
+        i = 0
+        for i in range(len(pos) - 1):
+            if self.all_block(code[pos[i]:pos[i + 1]]):
+                replaceList.append(pos[i + 1])
+        i = len(replaceList) - 1
+        while i >= 0:
+            code = code[:replaceList[i]] + code[replaceList[i] + 1:]
+            i = i - 1
+
+        return code
+
 
     def set_prompt_python(self,code,type=1):
         if type==0:
@@ -270,114 +514,6 @@ class Prompt_base():
 
         code = code.replace('\n', '\r\n')
         return code
-
-    def code_preprocess_java(self,code):
-        sum_symbol = '/*'
-        pos = self.find_all(code, sum_symbol)
-        #maybe have sum:
-        if len(pos)>=1:
-            replaceList=[]
-            i_head=0
-            while i_head<len(pos):
-                i_tail = code.find('*/',pos[i_head]+2)
-                if i_tail!=-1:
-                    replaceList.append([pos[i_head],i_tail+1])
-                else:
-                    break
-                i_head=i_head+1
-
-            # record begin_position of sum
-            i= len(replaceList)-1
-            #del sum
-            while i >=0:
-                id=replaceList[i]
-                if(id[1]<len(code)-1):
-                    code=code[:id[0]]+code[id[1]+1:]
-                else:
-                    code=code[:id[0]]
-                i-=1
-
-        pos = self.find_all(code, '//')
-        # maybe have //:
-        if len(pos) >= 1:
-            replaceList = []
-            i = 0
-            # record begin_position of sum
-            while i < len(pos):
-                i1 = pos[i] - 1
-                while i1 >= 0:
-                    if code[i1] == ' ':
-                        i1 = i1 - 1
-                    else:
-                        break
-                i2=i1+1
-                while i2<len(code):
-                    if code[i2] != '\n':
-                        i2=i2+1
-                    else:
-                        break
-                replaceList.append([i1 + 1, i2-1])
-                i = i + 1
-            i = len(replaceList) - 1
-            # del sum
-            while i >= 0:
-                id = replaceList[i]
-                if (id[1] < len(code) - 1):
-                    code = code[:id[0]] + code[id[1] + 1:]
-                else:
-                    code = code[:id[0]]
-                i -= 1
-
-        '''pos = self.find_all(code, '@')
-        # maybe have //:
-        if len(pos) >= 1:
-            replaceList = []
-            i = 0
-            # record begin_position of sum
-            while i < len(pos):
-                i1 = pos[i] - 1
-                while i1 >= 0:
-                    if code[i1] == ' ':
-                        i1 = i1 - 1
-                    else:
-                        break
-                i2 = i1 + 1
-                while i2 < len(code):
-                    if code[i2] != '\n':
-                        i2 = i2 + 1
-                    else:
-                        break
-                replaceList.append([i1 + 1, i2 - 1])
-                i = i + 1
-            i = len(replaceList) - 1
-            # del sum
-            while i >= 0:
-                id = replaceList[i]
-                if (id[1] < len(code) - 1):
-                    code = code[:id[0]] + code[id[1] + 1:]
-                else:
-                    code = code[:id[0]]
-                i -= 1
-'''
-
-
-        #del blocks
-        pos=self.find_all(code,'\n')
-        replaceList=[]
-        i=0
-        for i in range(len(pos)-1):
-            if self.all_block(code[pos[i]:pos[i+1]]):
-                replaceList.append(pos[i+1])
-        i=len(replaceList)-1
-        while i>=0:
-            code=code[:replaceList[i]]+code[replaceList[i]+1:]
-            i=i-1
-
-        return code
-
-    def code_preprocess_js(self,code):
-        return self.code_preprocess_java(code)
-
     def set_prompt_java(self,code,type=1):
         if type==0:
             code = code + '''\n\n/*is used to'''
@@ -405,9 +541,11 @@ class Prompt_base():
             code='''/*is used to<extra_id_0>\n'''+code
         code = code.replace('\n', '\r\n')
         return code
-
     def set_prompt_js(self,code,type=1):
         return self.set_prompt_java(code,type)
+    def set_prompt_go(self,code,type=1):
+        return self.set_prompt_java(code,type)
+
 
     def denoise(self,result):
         if self.skip:
@@ -443,7 +581,6 @@ class Prompt_base():
 
         result_denoised=result
         return result_denoised
-
     def standardize(self,result):
         #print(1)
         result_denoise = result
@@ -469,15 +606,16 @@ class Prompt_base():
         strFirst = strFirst.upper()
         result_denoise = strFirst + result_denoise + '.'
         return result_denoise
-
     def model_run(self):
         input_ids = self.tokenizer(self.text, return_tensors="pt").input_ids
         self.input_size=len(input_ids[0])
+        if self.input_size>512:
+            self.result='Code too long,keep in 512.'
+            return
         if torch.cuda.is_available():
             input_ids=input_ids.cuda()
         generated_ids = self.model.generate(input_ids, max_length=25)
         self.result=self.tokenizer.decode(generated_ids[0],skip_special_tokens=self.skip)
-
     def run(self,input):
         self.text=input[0]
         self.reference.clear()
