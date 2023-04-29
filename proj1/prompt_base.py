@@ -51,7 +51,7 @@ class Prompt_base():
             pos.append(start)
             start += len(sub)
     def string_split(self,str):
-        return re.split("[,:;*#'./\"\n(){}+-=_@!><&]", str)
+        return re.split("[,:;*#./\"\n(){}=@!><&$]", str)
     def get_first_char(self, str):
         for i in range(len(str)):
             if str[i] != ' ':
@@ -69,7 +69,7 @@ class Prompt_base():
         else:
             return True
     def check_useful(self, str):
-        text = ''':;*#'/\"\n(){}-!><&'''
+        text = '''$:;*#/\"\n(){}!><&'''
         for c in text:
             if c in str:
                 return False
@@ -515,9 +515,9 @@ class Prompt_base():
         code = code.replace('\n', '\r\n')
         return code
     def set_prompt_java(self,code,type=1):
-        if type==0:
+        if type==0:#add in tail
             code = code + '''\n\n/*is used to'''
-        elif type==1:
+        elif type==1:#add inside func
             replaceID=code.find('{\n')
             if replaceID==-1:
                 code='''/*is used to<extra_id_0>\n'''+code
@@ -537,7 +537,7 @@ class Prompt_base():
                     code = code[:replaceID] + '''/*is used to<extra_id_0>\n''' + blocks + code[replaceID:]
                 else:
                     code='''/*is used to<extra_id_0>\n'''+code
-        elif type==3:
+        elif type==3:#add in head
             code='''/*is used to<extra_id_0>\n'''+code
         code = code.replace('\n', '\r\n')
         return code
@@ -628,6 +628,10 @@ class Prompt_base():
             if len(preprocess_ref)==0:
                 preprocess_ref=input[1]
         elif self.language=='js' and preprocess_ref.find('@')!=-1:
+            preprocess_ref=preprocess_ref[:preprocess_ref.find('@')]
+            if len(preprocess_ref)==0:
+                preprocess_ref=input[1]
+        elif self.language=='php' and preprocess_ref.find('@')!=-1:
             preprocess_ref=preprocess_ref[:preprocess_ref.find('@')]
             if len(preprocess_ref)==0:
                 preprocess_ref=input[1]

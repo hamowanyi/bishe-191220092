@@ -1019,3 +1019,53 @@ function CardGroup(props) {
 
 <pad><extra_id_0> render the card group */<extra_id_1> render the card group */<extra_id_2>
  <extra_id_3> render the card group */<extra_id_4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ php test:
+ public function create(Request $request, $table)
+    {
+        /*is used to<extra_id_0>
+        $this->authorize('browse_bread');
+        $dataType = Voyager::model('DataType')->whereName($table)->first();
+        $data = $this->prepopulateBreadInfo($table);
+        $data['fieldOptions'] = SchemaManager::describeTable((isset($dataType) && strlen($dataType->model_name) != 0)
+            ? app($dataType->model_name)->getTable()
+            : $table
+        );
+        return Voyager::view('voyager::tools.bread.edit-add', $data);
+    }
+
+
+<pad><extra_id_0> authorize the admin*/<extra_id_1> check permissions*/<extra_id_2>
+       <extra_id_3> allow admin to browse bread<extra_id_4> create bread
+
+
+public function editRoles(User $user, $model)
+    {
+        /*is used to<extra_id_0>*/
+        $another = $user->id != $model->id;
+        return $another && $user->hasPermission('edit_users');
+    }
+
+
+<pad><extra_id_0> check if user is another<extra_id_1>
+       <extra_id_2>
+       <extra_id_3> check if user is the same<extra_id_4> check if user

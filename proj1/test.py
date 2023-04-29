@@ -34,14 +34,14 @@ class scoreTest():
             i=i+1
 
     def get_all_into_count(self):
-        self.run('goresult1_0.jsonl')
+        self.run('results/phpresult1_0.jsonl')
         #self.run('results/javaresult1.jsonl')
         print(self.mean(self.BLEUList))
         print(self.mean(self.METEORList))
 
 
 class recordTest():
-    def __init__(self, filepath='jsresult2_0.jsonl'):
+    def __init__(self, filepath='phpresult1_0.jsonl'):
         self.filepath = filepath
 
     def run(self):
@@ -50,8 +50,10 @@ class recordTest():
         #df = df[["code","score"]]
         i = 0
         set = 0
-
-        while set + i < 50:
+        num=len(df)
+        if num>50:
+            num=50
+        while set + i < num:
             print(set + i)
             X = df.loc[set + i]
             X = X.values
@@ -59,9 +61,9 @@ class recordTest():
             if X[1]>512:
                 i=i+1
                 continue
-            if X[4][0]>0.05:
+            '''if X[4][0]>0.05:
                 i=i+1
-                continue
+                continue'''
             print(X[0])
             print("Ref:\n"+X[2]+"\nSumm:\n"+X[3])
             print(X[4][0])
@@ -69,9 +71,31 @@ class recordTest():
             i = i + 1
 
 
+class codeTest():
+    def __init__(self, filepath='dataset/javascript/test.jsonl'):
+        self.filepath = filepath
+
+    def run(self):
+        vpath = r"".join([self.filepath])
+        df = pd.read_json(vpath, orient='records', lines=True)
+        df = df[["original_string","docstring"]]
+        i = 0
+        set = 0
+
+        while set + i < 50:
+            print(set + i)
+            X = df.loc[set + i]
+            X = X.values
+            X.tolist()
+            print("Code:\n"+X[0]+"\nRef:\n"+X[1])
+            print('\n\n')
+            i = i + 1
+
+
 
 #recordTest().run()
 scoreTest().get_all_into_count()
+#codeTest().run()
 
 #py1:
 #0.08698681917211337
@@ -105,3 +129,7 @@ scoreTest().get_all_into_count()
 #go1:
 #0.053730965279487584
 #0.09255812607732129
+
+#php1:
+#0.1430692521763932
+#0.18717598116169834
