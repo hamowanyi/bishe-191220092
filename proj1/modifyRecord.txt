@@ -937,3 +937,85 @@ public static <T, U> Function<T, U> castFunction(Class<U> target) {
 
 
 cast the function to the target class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+js new test:
+/* used to<extra_id_0>
+function CardGroup(props) {
+  const {
+    centered,
+    children,
+    className,
+    content,
+    doubling,
+    items,
+    itemsPerRow,
+    stackable,
+    textAlign,
+  } = props
+  const classes = cx(
+    'ui',
+    useKeyOnly(centered, 'centered'),
+    useKeyOnly(doubling, 'doubling'),
+    useKeyOnly(stackable, 'stackable'),
+    useTextAlignProp(textAlign),
+    useWidthProp(itemsPerRow),
+    'cards',
+    className,
+  )
+  const rest = getUnhandledProps(CardGroup, props)
+  const ElementType = getElementType(CardGroup, props)
+  if (!childrenUtils.isNil(children)) {
+    return (
+      <ElementType {...rest} className={classes}>
+        {children}
+      </ElementType>
+    )
+  }
+  if (!childrenUtils.isNil(content)) {
+    return (
+      <ElementType {...rest} className={classes}>
+        {content}
+      </ElementType>
+    )
+  }
+  const itemsJSX = _.map(items, (item) => {
+    const key = item.key || [item.header, item.description].join('-')
+    return <Card key={key} {...item} />
+  })
+  return (
+    <ElementType {...rest} className={classes}>
+      {itemsJSX}
+    </ElementType>
+  )
+}
+
+
+
+<pad><extra_id_0> render the card group */<extra_id_1> render the card group */<extra_id_2>
+ <extra_id_3> render the card group */<extra_id_4>

@@ -2,27 +2,57 @@ from transformers import AutoTokenizer, T5ForConditionalGeneration
 tokenizer = AutoTokenizer.from_pretrained("Salesforce/codet5-large")
 model = T5ForConditionalGeneration.from_pretrained("Salesforce/codet5-large")
 
-text='''/*is used to<extra_id_0>
-protected final void fastPathOrderedEmit(U value, boolean delayError, Disposable disposable) {
-        final Observer<? super V> observer = downstream;
-        final SimplePlainQueue<U> q = queue;
-        if (wip.get() == 0 && wip.compareAndSet(0, 1)) {
-            if (q.isEmpty()) {
-                accept(observer, value);
-                if (leave(-1) == 0) {
-                    return;
-                }
-            } else {
-                q.offer(value);
-            }
-        } else {
-            q.offer(value);
-            if (!enter()) {
-                return;
-            }
-        }
-        QueueDrainHelper.drainLoop(q, observer, delayError, disposable, this);
-    }'''
+text='''
+function CardGroup(props) {  
+  const {
+    centered,
+    children,
+    className,
+    content,
+    doubling,
+    items,
+    itemsPerRow,
+    stackable,
+    textAlign,
+  } = props
+  const classes = cx(
+    'ui',
+    useKeyOnly(centered, 'centered'),
+    useKeyOnly(doubling, 'doubling'),
+    useKeyOnly(stackable, 'stackable'),
+    useTextAlignProp(textAlign),
+    useWidthProp(itemsPerRow),
+    'cards',
+    className,
+  )
+  const rest = getUnhandledProps(CardGroup, props)
+  const ElementType = getElementType(CardGroup, props)
+  if (!childrenUtils.isNil(children)) {
+    return (
+      <ElementType {...rest} className={classes}>
+        {children}
+      </ElementType>
+    )
+  }
+  if (!childrenUtils.isNil(content)) {
+    return (
+      <ElementType {...rest} className={classes}>
+        {content}
+      </ElementType>
+    )
+  }
+  const itemsJSX = _.map(items, (item) => {
+    const key = item.key || [item.header, item.description].join('-')
+    return <Card key={key} {...item} />
+  })
+  return (
+    <ElementType {...rest} className={classes}>
+      {itemsJSX}
+    </ElementType>
+  )
+}
+/* is used to<extra_id_0>
+'''
 #Returns a dictionary from a URL params
 text=text.replace('\n','\r\n')
 print(text+'\n\n')

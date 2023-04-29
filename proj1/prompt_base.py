@@ -545,7 +545,10 @@ class Prompt_base():
         return self.set_prompt_java(code,type)
     def set_prompt_go(self,code,type=1):
         return self.set_prompt_java(code,type)
-
+    def set_prompt_php(self,code,type=1):
+        return self.set_prompt_java(code,type)
+    def set_prompt_ruby(self,code,type=1):
+        return self.set_prompt_java(code,type)
 
     def denoise(self,result):
         if self.skip:
@@ -620,10 +623,15 @@ class Prompt_base():
         self.text=input[0]
         self.reference.clear()
         preprocess_ref = self.ref_preprocess(input[1])
-        if self.language=='java' and input[1].find('@')!=-1:
-            preprocess_ref=input[1][:input[1].find('@')]
+        if self.language=='java' and preprocess_ref.find('@')!=-1:
+            preprocess_ref=preprocess_ref[:preprocess_ref.find('@')]
             if len(preprocess_ref)==0:
                 preprocess_ref=input[1]
+        elif self.language=='js' and preprocess_ref.find('@')!=-1:
+            preprocess_ref=preprocess_ref[:preprocess_ref.find('@')]
+            if len(preprocess_ref)==0:
+                preprocess_ref=input[1]
+
 
         self.reference.append(preprocess_ref)
         if not self.test:
@@ -634,6 +642,18 @@ class Prompt_base():
             elif self.language=='java':
                 self.text = self.code_preprocess_java(self.text)
                 self.text = self.set_prompt_java(self.text,type=3)
+            elif self.language=='js':
+                self.text = self.code_preprocess_js(self.text)
+                self.text = self.set_prompt_js(self.text, type=3)
+            elif self.language=='go':
+                self.text = self.code_preprocess_go(self.text)
+                self.text = self.set_prompt_go(self.text, type=3)
+            elif self.language=='php':
+                self.text = self.code_preprocess_php(self.text)
+                self.text = self.set_prompt_php(self.text, type=3)
+            elif self.language=='ruby':
+                self.text = self.code_preprocess_ruby(self.text)
+                self.text = self.set_prompt_ruby(self.text, type=3)
         #print('Preprocess:\n'+self.text)
 
 

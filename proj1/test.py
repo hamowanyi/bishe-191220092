@@ -34,14 +34,14 @@ class scoreTest():
             i=i+1
 
     def get_all_into_count(self):
-        self.run('jsresult1_0.jsonl')
+        self.run('goresult1_0.jsonl')
         #self.run('results/javaresult1.jsonl')
         print(self.mean(self.BLEUList))
         print(self.mean(self.METEORList))
 
 
 class recordTest():
-    def __init__(self, filepath='results/javaresult2_0.jsonl'):
+    def __init__(self, filepath='jsresult2_0.jsonl'):
         self.filepath = filepath
 
     def run(self):
@@ -56,6 +56,12 @@ class recordTest():
             X = df.loc[set + i]
             X = X.values
             X.tolist()
+            if X[1]>512:
+                i=i+1
+                continue
+            if X[4][0]>0.05:
+                i=i+1
+                continue
             print(X[0])
             print("Ref:\n"+X[2]+"\nSumm:\n"+X[3])
             print(X[4][0])
@@ -91,3 +97,11 @@ scoreTest().get_all_into_count()
 #js1:
 #0.06693922819811621
 #0.09570370707991528
+
+#js2:
+#0.08099397999999966
+#0.10897590000000022
+
+#go1:
+#0.053730965279487584
+#0.09255812607732129

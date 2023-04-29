@@ -47,6 +47,32 @@ def string_split(str):
 '''
 
 class Methodtest():
+    def all_block(self, str, c=' '):
+        if len(str) >= 2:
+            str = str[1:len(str)]
+        else:
+            return True
+        for i in range(len(str)):
+            if str[i] != c:
+                return False
+        return True
+
+    def find_all(self, string, sub, beg=0, end=0):
+        if end == 0:
+            end = len(string)
+        string = string[beg:end]
+        start = 0
+        pos = []
+        while True:
+            start = string.find(sub, start)
+            if start == -1:
+                return pos
+            pos.append(start)
+            start += len(sub)
+
+    def string_split(self, str):
+        return re.split("[,:;*#'./\"\n(){}+-=_@!><&]", str)
+
     def get_first_char(self, str):
         for i in range(len(str)):
             if str[i] != ' ':
@@ -55,7 +81,6 @@ class Methodtest():
                 elif str[i] in string.ascii_lowercase:
                     return False, True
         return False, False
-
 
     def judge_end(self, str, i):
         if i < len(str) - 1:
@@ -66,14 +91,12 @@ class Methodtest():
         else:
             return True
 
-
     def check_useful(self, str):
-        text = ''':;*#'/\"\n(){}-@!><&'''
+        text = ''':;*#'/\"\n(){}-!><&'''
         for c in text:
             if c in str:
                 return False
         return True
-
 
     def ref_preprocess(self, ref):
         sList = ref.split('\n')
@@ -82,39 +105,42 @@ class Methodtest():
             i0 = 0
             while i0 < len(sList):
                 if not self.check_useful(sList[i0]):
+                    print(1)
                     i0 = i0 + 1
                     continue
                 if len(sList[i0]) == 0:
+                    print(2)
                     i0 = i0 + 1
                     continue
                 is_upper, is_lower = self.get_first_char(sList[i0])
                 if is_lower and not is_upper:
+                    print(3)
                     i1 = sList[i0].find('.')
                     if i1 != -1 and self.judge_end(sList[i0], i1):
+                        print(4)
                         res = res + sList[i0][:i1 + 1]
+                        break
                     else:
+                        print(5)
                         res = res + sList[i0]
                     i0 = i0 + 1
                 elif is_upper and not is_lower:
+                    print(6)
                     if len(res) > 0:
-                        i2 = 0
-                        while i2 < len(res):
-                            if res[i2] != ' ':
-                                break
-                            else:
-                                i2 = i2 + 1
-                        res = res[i2:]
-                        return res
+                        print(7)
+                        break
                     else:
-                        i2=sList[i0].find('.')
-                        if i2==-1:
+                        print(8)
+                        i2 = sList[i0].find('.')
+                        if i2 == -1:
                             res = res + sList[i0]
                         else:
-                            if self.judge_end(sList[i0],i2):
-                                res=res+sList[i0][:i2+1]
-                        i0=i0+1
+                            if self.judge_end(sList[i0], i2):
+                                res = res + sList[i0][:i2 + 1]
+                                break
+                        i0 = i0 + 1
                 else:
-                    i0=i0+1
+                    i0 = i0 + 1
                     continue
 
         if len(res) == 0:
@@ -130,5 +156,14 @@ class Methodtest():
         return res
 
 
-sum_symbol = '''def sina_xml_to_url_list(xml_data):\n    \"\"\"str->list\n    Convert XML to URL List.\n    From Biligrab.\n    \"\"\"\n    rawurl = []\n    dom = parseString(xml_data)\n    for node in dom.getElementsByTagName('durl'):\n        url = node.getElementsByTagName('url')[0]\n        rawurl.append(url.childNodes[0].data)\n    return rawurl'''
-print(sum_symbol)
+sum_symbol = '''Iterate over an Array or an Object invoking a function for each item.
+
+If `obj` is an Array callback will be called passing
+the value, index, and complete array for each item.
+
+If 'obj' is an Object callback will be called passing
+the value, key, and complete object for each property.
+
+@param {Object|Array} obj The object to iterate
+@param {Function} fn The callback to invoke for each item'''
+print(Methodtest().ref_preprocess(sum_symbol))
