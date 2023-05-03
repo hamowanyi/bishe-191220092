@@ -34,14 +34,14 @@ class scoreTest():
             i=i+1
 
     def get_all_into_count(self):
-        self.run('results/phpresult1_0.jsonl')
+        self.run('results/pythonresult4_0.jsonl')
         #self.run('results/javaresult1.jsonl')
         print(self.mean(self.BLEUList))
         print(self.mean(self.METEORList))
 
 
 class recordTest():
-    def __init__(self, filepath='phpresult1_0.jsonl'):
+    def __init__(self, filepath='pythonresult30.jsonl'):
         self.filepath = filepath
 
     def run(self):
@@ -72,7 +72,7 @@ class recordTest():
 
 
 class codeTest():
-    def __init__(self, filepath='dataset/javascript/test.jsonl'):
+    def __init__(self, filepath='dataset/python/test.jsonl'):
         self.filepath = filepath
 
     def run(self):
@@ -100,29 +100,28 @@ scoreTest().get_all_into_count()
 #py1:
 #0.08698681917211337
 #0.12853877995642693
-#py2:
+
+#py2:final_1
 #0.130077798632525
 #0.18108317468829724
+#py3 newtest:
+#0.144984
+#0.248424
+#0.12441372838181906
+#0.169677724896099
+#py4 type2:
+#0.13123749162086112
+#0.18043821557849676
 
-#java1:type3(is used to),del @
-#0.03621800000000001
-#0.073294
-
-#java2:type3(used to),del @
-#0.033362
-#0.05708200000000001
-
-#java3:type3,not del @
-#0.041402
-#0.078818
+#javaresult2:final
 #0.10559973528069304
 #0.16156063897763648
 
-#js1:
+#js1:(test)
 #0.06693922819811621
 #0.09570370707991528
 
-#js2:
+#js2:(test2):final
 #0.08099397999999966
 #0.10897590000000022
 
@@ -133,3 +132,11 @@ scoreTest().get_all_into_count()
 #php1:
 #0.1430692521763932
 #0.18717598116169834
+
+
+#ruby1(type3,test)
+#0.08411356066613801
+#0.11523790642347337
+#ruby2:(type3,test2):final
+#0.09523090999999902
+#0.12887691999999992

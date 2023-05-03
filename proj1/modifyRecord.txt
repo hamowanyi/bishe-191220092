@@ -1069,3 +1069,113 @@ public function editRoles(User $user, $model)
 <pad><extra_id_0> check if user is another<extra_id_1>
        <extra_id_2>
        <extra_id_3> check if user is the same<extra_id_4> check if user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ruby test:
+
+
+1
+Code:
+def find_bad_files_from_kubectl_output(line)
+      # stderr often contains one or more lines like the following, from which we can extract the file path(s):
+      # Error from server (TypeOfError): error when creating "/path/to/service-gqq5oh.yml": Service "web" is invalid:
+
+      line.scan(%r{"(/\S+\.ya?ml\S*)"}).each_with_object([]) do |matches, bad_files|
+        matches.each do |path|
+          content = File.read(path) if File.file?(path)
+          bad_files << { filename: File.basename(path), err: line, content: content }
+        end
+      end
+    end
+Ref:
+Inspect the file referenced in the kubectl stderr
+ to make it easier for developer to understand what's going on
+
+
+
+2
+Code:
+def confirm_ejson_keys_not_prunable
+      secret = ejson_provisioner.ejson_keys_secret
+      return unless secret.dig("metadata", "annotations", KubernetesResource::LAST_APPLIED_ANNOTATION)
+
+      @logger.error("Deploy cannot proceed because protected resource " \
+        "Secret/#{EjsonSecretProvisioner::EJSON_KEYS_SECRET} would be pruned.")
+      raise EjsonPrunableError
+    rescue Kubectl::ResourceNotFoundError => e
+      @logger.debug("Secret/#{EjsonSecretProvisioner::EJSON_KEYS_SECRET} does not exist: #{e}")
+    end
+Ref:
+make sure to never prune the ejson-keys secret
+
+
+
+3
+Code:
+def for_current_system(compressors)
+      family = Ohai["platform_family"]
+
+      if family == "mac_os_x"
+        if compressors.include?(:dmg)
+          return DMG
+        end
+
+        if compressors.include?(:tgz)
+          return TGZ
+        end
+      end
+
+      if compressors.include?(:tgz)
+        return TGZ
+      else
+        log.info(log_key) { "No compressor defined for `#{family}'." }
+        return Null
+      end
+    end
+Ref:
+Determine the best compressor for the current system. This method returns
+ the class, not an instance of the class.
+
+
+
+
