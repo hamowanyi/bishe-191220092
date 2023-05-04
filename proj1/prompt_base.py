@@ -15,7 +15,7 @@ import torch.utils.data as Data
 
 
 class Prompt_base():
-    def __init__(self,_tokenizer,_model,language='python',test=False,skipTokens=1,_promptType=3):
+    def __init__(self,_tokenizer,_model,language='python',test=False,skipTokens=1,_promptType=0):
         self.text=''
         self.input_size=0
         self.reference=[]
@@ -31,8 +31,8 @@ class Prompt_base():
         self.language=language
         self.skip=skipTokens
         #0:<extra_id_>;  1:skip; 2:else
-        if torch.cuda.is_available():
-            self.model = self.model.cuda()
+        #if torch.cuda.is_available():
+            #self.model = self.model.cuda()
 
 
     def all_block(self,str,c=' '):
@@ -75,7 +75,7 @@ class Prompt_base():
         else:
             return True
     def check_useful(self, str):
-        text = '''$:;*#/\n(){}!><&'''
+        text = '''$:;\n(){}!><&'''
         for c in text:
             if c in str:
                 return False
@@ -94,6 +94,21 @@ class Prompt_base():
                 if len(sList[i0]) == 0:
                     i0 = i0 + 1
                     continue
+
+                i_first=0
+                while sList[i0][i_first]==' ':
+                    i_first=i_first+1
+                if sList[i0].find('//')==i_first:
+                    i_first=i_first+2
+                elif sList[i0].find('/*')==i_first:
+                    i_first=i_first+2
+                elif sList[i0].find('#')==i_first:
+                    i_first=i_first+1
+                elif sList[i0].find('*')==i_first:
+                    i_first=i_first+1
+                sList[i0]=sList[i0][i_first:]
+
+
                 is_upper, is_lower = self.get_first_char(sList[i0])
                 if is_lower and not is_upper:
                     i1 = sList[i0].find('.')
@@ -491,9 +506,9 @@ class Prompt_base():
         return code
 
 
-    def set_prompt_python(self,code,type=1):
+    def set_prompt_python(self,code,type=0):
         if type==0:
-            code = code + '''\n\n""" is used to'''
+            code = code + '''\n\n""" This function is used to'''
         elif type==1:
             replaceID=code.find('\n')+1
             count=0
@@ -527,9 +542,9 @@ class Prompt_base():
             code = '''""" is used to<extra_id_0>\n'''+code
         code = code.replace('\n', '\r\n')
         return code
-    def set_prompt_java(self,code,type=1):
+    def set_prompt_java(self,code,type=0):
         if type==0:#add in tail
-            code = code + '''\n\n/*is used to'''
+            code = code + '''\n\n/*This method is used to'''
         elif type==1:#add inside func
             replaceID=code.find('{\n')
             if replaceID==-1:
@@ -554,15 +569,15 @@ class Prompt_base():
             code='''/*is used to<extra_id_0>\n'''+code
         code = code.replace('\n', '\r\n')
         return code
-    def set_prompt_js(self,code,type=1):
+    def set_prompt_js(self,code,type=0):
         return self.set_prompt_java(code,type)
-    def set_prompt_go(self,code,type=1):
+    def set_prompt_go(self,code,type=0):
         return self.set_prompt_java(code,type)
-    def set_prompt_php(self,code,type=1):
+    def set_prompt_php(self,code,type=0):
         return self.set_prompt_java(code,type)
-    def set_prompt_ruby(self,code,type=1):
+    def set_prompt_ruby(self,code,type=0):
         if type == 0:  # add in tail
-            code = code + '''\n\n# is used to'''
+            code = code + '''\n\n# This function is used to'''
         elif type == 1:  # add inside func
             replaceID = code.find('\n') + 1
             count = 0
@@ -587,16 +602,40 @@ class Prompt_base():
             sList = self.string_split(result)
             result = max(sList, key=len, default='')
         elif self.skip==2:
-            pos=self.find_all(result,'"""')
-            if len(pos)<2:
-                if len(pos)==1:
-                    result=result[pos[0]+3:]
+            if self.language=='python':
+                pos=self.find_all(result,'"""')
+                if len(pos)<2:
+                    if len(pos)==1:
+                        result=result[pos[0]+3:]
+                    else:
+                        result=result
                 else:
-                    result=result
-            else:
-                cut_start=pos[-2]+3
-                cut_end=pos[-1]
-                result=result[cut_start,cut_end]
+                    cut_start=pos[-2]+3
+                    cut_end=pos[-1]
+                    result=result[cut_start:cut_end]
+            elif self.language=='java' or self.language=='js' or self.language=='go' or self.language=='php':
+                pos1=self.find_all(result,'/*')
+                pos2=self.find_all(result,'*/')
+                cut_start=0
+                cut_end=len(result)
+                if len(pos2)>0:
+                    if len(pos1)>0 and pos1[-1]<pos2[-1]:
+                        cut_start=pos1[-1]+2
+                        cut_end=pos2[-1]
+                else:
+                    if len(pos1)>0:
+                        cut_start=pos1[-1]+2
+                result=result[cut_start:cut_end]
+                result=self.ref_preprocess(result)
+            elif self.language=='ruby':
+                pos=self.find_all(result,'\n#')
+                cut_start=0
+                cut_end=len(result)
+                if len(pos)>0:
+                    cut_start=pos[0]+2
+                result=result[cut_start:cut_end]
+                result=self.ref_preprocess(result)
+
         else:
             sList=result.split('<extra_id_')
             for i in range(len(sList)):
@@ -640,7 +679,9 @@ class Prompt_base():
         result_denoise = result_denoise.replace('is a function that ', '')
         result_denoise = result_denoise.replace('is a function to ', '')
         result_denoise = result_denoise.replace('This function ', '')
+        result_denoise = result_denoise.replace('This method ', '')
         result_denoise = result_denoise.replace('The function ', '')
+        result_denoise = result_denoise.replace('is used to ', '')
         #print(3)
         #print(result_denoise)
 
@@ -653,23 +694,21 @@ class Prompt_base():
         result_denoise = strFirst + result_denoise + '.'
         return result_denoise
     def model_run(self):
-
-
-
-
         input_ids = self.tokenizer(self.text, return_tensors="pt").input_ids
         self.input_size=len(input_ids[0])
         if self.input_size>512:
             self.result='Code too long,keep in 512.'
+            print(self.result)
             return
-        if torch.cuda.is_available():
-            input_ids=input_ids.cuda()
-        generated_ids = self.model.generate(input_ids, max_length=25)
+        #if torch.cuda.is_available():
+            #input_ids=input_ids.cuda()
+        generated_ids = self.model.generate(input_ids, max_length=self.input_size+25)
         toSkip=False
         if self.skip==1:
             toSkip=True
 
         self.result=self.tokenizer.decode(generated_ids[0],skip_special_tokens=toSkip)
+        print(self.result)
     def run(self,input):
         self.text=input[0]
         self.reference.clear()

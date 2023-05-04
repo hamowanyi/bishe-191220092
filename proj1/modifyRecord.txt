@@ -1179,3 +1179,1878 @@ Determine the best compressor for the current system. This method returns
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cparrot test:
+0
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+""" This function is used to get the list of all the urls in the database """
+def get_urls_from_db(db_url
+1
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+""" This function is used to download the videos from the given url """
+def download_urls(urls, title, ext, size, output_
+2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function is used to download the content of a video. It is used to download the content of a video. """
+def sina_
+3
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" This function is used to print the text in a terminal. """
+def print_text(text, *colors):
+    return "\33[
+4
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def print_log(text, *colors):
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+""" This function is used to print the log file. """
+def print_log_file(text, *colors):
+    sys.stderr.
+5
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def e(message, exit_code=None):
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function is used to run the program. """
+def main():
+    """ The main function. """
+    # Get the command line arguments.
+6
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def wtf(message, exit_code=1):
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function is used to send a message to the user. """
+def send_message(message, to_user, from_user,
+7
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def detect_os():
+    syst = system().lower()
+    os = 'unknown'
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os ='mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        try:
+            with open('/proc/version', 'r') as f:
+                if'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+    return os
+
+""" This function is used to determine the OS version from the system. """
+def get_os_version():
+    return platform.system()
+
+8
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+""" This function is used to download the vimeo videos """
+def vimeo_download_by_channel_id(channel_id
+9
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def ckplayer_get_info_by_xml(ckinfo):
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  'links': [],
+                 'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+_text' in dictified['video'][0]['size'][0]:
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+    if '_text' in dictified['video'][0]['file'][0]:
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+    return video_dict
+
+""" This function is used to get the video info from the xml file """
+def ckplayer_get_video_info(video_id):
+10
+Code too long,keep in 512.
+11
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_mgtv_real_url(url):
+        content = loads(get_content(url))
+        m3u_url = content['info']
+        split = urlsplit(m3u_url)
+                base_url = "{scheme}://{netloc}{path}/".format(scheme = split[0],
+                                                      netloc = split[1],
+                                                      path = dirname(split[2]))
+        content = get_content(content['info'])
+        segment_list = []
+        segments_size = 0
+        for i in content.split():
+            if not i.startswith('
+            elif i.startswith('
+                segments_size += int(i[i.rfind(':')+1:])
+        return m3u_url, segments_size, segment_list
+
+""" This function is used to get the m3u file from the m3u_url """
+def get_mgtv_real_
+12
+def legitimize(text, os=detect_os()):
+    text = text.translate({
+        0: None,
+        ord('/'): '-',
+        ord('|'): '-',
+    })
+    if os == 'windows' or os == 'cygwin' or os == 'wsl':
+        text = text.translate({
+            ord(':'): '-',
+            ord('*'): '-',
+            ord('?'): '-',
+            ord('\\'): '-',
+            ord('\"'): '\'',
+            ord('+'): '-',
+            ord('<'): '-',
+            ord('>'): '-',
+            ord('['): '(',
+            ord(']'): ')',
+            ord('\t'):'',
+        })
+    else:
+        if os =='mac':
+            text = text.translate({
+                ord(':'): '-',
+            })
+        if text.startswith("."):
+            text = text[1:]
+    text = text[:80]
+    return text
+
+""" This function is used to convert a text string to a number.
+    It is used to convert a number to a text string.
+    It is used
+13
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def cbs_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(url)
+    pid = match1(html, r'video\.settings\.pid\s*=\s*\'([^\']+)\'')
+    title = match1(html, r'video\.settings\.title\s*=\s*\"([^\"]+)\"')
+    theplatform_download_by_pid(pid, title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function is used to download the videos from the page_url """
+def cbs_download_by_pid(pid, output_
+14
+Code too long,keep in 512.
+15
+Code too long,keep in 512.
+16
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def matchall(text, patterns):
+    ret = []
+    for pattern in patterns:
+        match = re.findall(pattern, text)
+        ret += match
+    return ret
+
+""" This function is used to find all the files in a directory and
+find all the files in a directory recursively. """
+
+def findall
+17
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def parse_query_param(url, param):
+    try:
+        return parse.parse_qs(parse.urlparse(url).query)[param][0]
+    except:
+        return None
+
+""" This function is used to parse the query parameters from the URL. """
+def parse_query_url(url):
+    try:
+        return
+18
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_content(url, headers={}, decoded=True):
+    logging.debug('get_content: %s' % url)
+    req = request.Request(url, headers=headers)
+    if cookies:
+        cookies.add_cookie_header(req)
+        req.headers.update(req.unredirected_hdrs)
+    response = urlopen_with_retry(req)
+    data = response.read()
+    content_encoding = response.getheader('Content-Encoding')
+    if content_encoding == 'gzip':
+        data = ungzip(data)
+    elif content_encoding == 'deflate':
+        data = undeflate(data)
+    if decoded:
+        charset = match1(
+            response.getheader('Content-Type', ''), r'charset=([\w-]+)'
+        )
+        if charset is not None:
+            data = data.decode(charset, 'ignore')
+        else:
+            data = data.decode('utf-8', 'ignore')
+    return data
+
+""" This function is used to get the content of a page.
+It is used to get the content of a page.
+"""
+
+19
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def post_content(url, headers={}, post_data={}, decoded=True, **kwargs):
+    if kwargs.get('post_data_raw'):
+        logging.debug('post_content: %s\npost_data_raw: %s' % (url, kwargs['post_data_raw']))
+    else:
+        logging.debug('post_content: %s\npost_data: %s' % (url, post_data))
+    req = request.Request(url, headers=headers)
+    if cookies:
+        cookies.add_cookie_header(req)
+        req.headers.update(req.unredirected_hdrs)
+    if kwargs.get('post_data_raw'):
+        post_data_enc = bytes(kwargs['post_data_raw'], 'utf-8')
+    else:
+        post_data_enc = bytes(parse.urlencode(post_data), 'utf-8')
+    response = urlopen_with_retry(req, data=post_data_enc)
+    data = response.read()
+    content_encoding = response.getheader('Content-Encoding')
+    if content_encoding == 'gzip':
+        data = ungzip(data)
+    elif content_encoding == 'deflate':
+        data = undeflate(data)
+    if decoded:
+        charset = match1(
+            response.getheader('Content-Type'), r'charset=([\w-]+)'
+        )
+        if charset is not None:
+            data = data.decode(charset)
+        else:
+            data = data.decode('utf-8')
+    return data
+
+""" This function is used to parse the response of the web page.
+The page is parsed into a list of dictionaries. Each dictionary contains
+
+20
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def parse_host(host):
+    if re.match(r'^(\d+)$', host) is not None:
+        return ("0.0.0.0", int(host))
+    if re.match(r'^(\w+)://', host) is None:
+        host = "//" + host
+    o = parse.urlparse(host)
+    hostname = o.hostname or "0.0.0.0"
+    port = o.port or 0
+    return (hostname, port)
+
+""" This function is used to parse the output of the command line.
+"""
+def parse_output(output):
+    if re.match
+21
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def showroom_get_roomid_by_room_url_key(room_url_key):
+    fake_headers_mobile = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Charset': 'UTF-8,*;q=0.5',
+        'Accept-Encoding': 'gzip,deflate,sdch',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Mobile Safari/537.36'
+    }
+    webpage_url = 'https://www.showroom-live.com/' + room_url_key
+    html = get_content(webpage_url, headers = fake_headers_mobile)
+    roomid = match1(html, r'room\?room_id\=(\d+)')
+    assert roomid
+    return roomid
+
+""" This function is used to get the roomid of a room. It is used to get the roomid of a room. """
+def show
+22
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def _wanmen_get_title_by_json_topic_part(json_content, tIndex, pIndex):
+    return '_'.join([json_content[0]['name'],
+                    json_content[0]['Topics'][tIndex]['name'],
+                    json_content[0]['Topics'][tIndex]['Parts'][pIndex]['name']])
+
+""" This function is used to get the title of a topic part. """
+def _wanmen_get_title_by_topic_part
+23
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def wanmen_download_by_course(json_api_content, output_dir='.', merge=True, info_only=False, **kwargs):
+    for tIndex in range(len(json_api_content[0]['Topics'])):
+        for pIndex in range(len(json_api_content[0]['Topics'][tIndex]['Parts'])):
+            wanmen_download_by_course_topic_part(json_api_content,
+                                                 tIndex,
+                                                 pIndex,
+                                                 output_dir=output_dir,
+                                                 merge=merge,
+                                                 info_only=info_only,
+                                                 **kwargs)
+
+""" This function is used to download the data from the Wanmen website. """
+def wanmen_download_by_course_topic
+24
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def wanmen_download_by_course_topic_part(json_api_content, tIndex, pIndex, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = json_api_content
+    title = _wanmen_get_title_by_json_topic_part(html,
+                                                  tIndex,
+                                                  pIndex)
+    bokeccID = _wanmen_get_boke_id_by_json_topic_part(html,
+                                                      tIndex,
+                                                     pIndex)
+    bokecc_download_by_id(vid = bokeccID, title = title, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+
+""" This function is used to download the bokecc dataset from the Wanmen website. """
+def wanmen_download_by_
+25
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def has_task(self, task_instance):
+        if task_instance.key in self.queued_tasks or task_instance.key in self.running:
+            return True
+
+""" This function is used to get the list of tasks that are currently running """
+def get_tasks(task_instance):
+    return task_
+26
+def get_event_buffer(self, dag_ids=None):
+        cleared_events = dict()
+        if dag_ids is None:
+            cleared_events = self.event_buffer
+            self.event_buffer = dict()
+        else:
+            for key in list(self.event_buffer.keys()):
+                dag_id, _, _, _ = key
+                if dag_id in dag_ids:
+                    cleared_events[key] = self.event_buffer.pop(key)
+        return cleared_events
+
+""" This function is used to send emails about events. """
+def send_email(to, subject, html_content, files=None,
+27
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_conn(self):
+        conn_config = self._get_conn_params()
+        conn = snowflake.connector.connect(**conn_config)
+        return conn
+
+""" This function is used to get the connection to the Snowflake server. """
+def get_conn_params():
+    conn_config
+28
+def _get_aws_credentials(self):
+        if self.snowflake_conn_id:
+            connection_object = self.get_connection(self.snowflake_conn_id)
+            if 'aws_secret_access_key' in connection_object.extra_dejson:
+                aws_access_key_id = connection_object.extra_dejson.get(
+                    'aws_access_key_id')
+                aws_secret_access_key = connection_object.extra_dejson.get(
+                    'aws_secret_access_key')
+        return aws_access_key_id, aws_secret_access_key
+
+""" This function is used to get the AWS credentials from the environment. """
+def _get_aws_credentials_from_environment():
+    aws
+29
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def _get_field(self, field_name, default=None):
+        full_field_name = 'extra__grpc__{}'.format(field_name)
+        if full_field_name in self.extras:
+            return self.extras[full_field_name]
+        else:
+            return default
+
+""" This function is used to create a new proto file. """
+def _get_field_proto(field_name, default=None):
+30
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def copy_expert(self, sql, filename, open=open):
+        if not os.path.isfile(filename):
+            with open(filename, 'w'):
+                pass
+        with open(filename, 'r+') as f:
+            with closing(self.get_conn()) as conn:
+                with closing(conn.cursor()) as cur:
+                    cur.copy_expert(sql, f)
+                    f.truncate(f.tell())
+                    conn.commit()
+
+""" This function is used to copy the data from the database to the
+database. It is used to copy the data from the database to the
+31
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def bulk_dump(self, table, tmp_file):
+        self.copy_expert("COPY {table} TO STDOUT".format(table=table), tmp_file)
+
+""" This function is used to dump the data in a table """
+def bulk_dump_table(self, table, tmp_file):
+
+32
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def execute(self, context):
+        hook = GoogleCloudStorageHook(
+            google_cloud_storage_conn_id=self.google_cloud_storage_conn_id,
+            delegate_to=self.delegate_to)
+        hook.upload(
+            bucket_name=self.bucket,
+            object_name=self.dst,
+            mime_type=self.mime_type,
+            filename=self.src,
+            gzip=self.gzip,
+        )
+
+""" This function is used to copy a file from one bucket to another.
+    """
+def copy(self, src, dst, bucket_name
+33
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def max_partition(
+        table, schema="default", field=None, filter_map=None,
+        metastore_conn_id='metastore_default'):
+    from airflow.hooks.hive_hooks import HiveMetastoreHook
+    if '.' in table:
+        schema, table = table.split('.')
+    hh = HiveMetastoreHook(metastore_conn_id=metastore_conn_id)
+    return hh.max_partition(
+        schema=schema, table_name=table, field=field, filter_map=filter_map)
+
+""" This function is used to copy data from Hive to MySQL.
+
+    :param sql: SQL query to execute against the MySQL database
+    :type sql
+34
+def get_conn(self):
+        conn = self.get_connection(self.mysql_conn_id)
+        conn_config = {
+            "user": conn.login,
+            "passwd": conn.password or '',
+            "host": conn.host or 'localhost',
+            "db": self.schema or conn.schema or ''
+        }
+        if not conn.port:
+            conn_config["port"] = 3306
+        else:
+            conn_config["port"] = int(conn.port)
+        if conn.extra_dejson.get('charset', False):
+            conn_config["charset"] = conn.extra_dejson["charset"]
+            if (conn_config["charset"]).lower() == 'utf8' or\
+                    (conn_config["charset"]).lower() == 'utf-8':
+                conn_config["use_unicode"] = True
+        if conn.extra_dejson.get('cursor', False):
+            if (conn.extra_dejson["cursor"]).lower() =='sscursor':
+                conn_config["cursorclass"] = MySQLdb.cursors.SSCursor
+            elif (conn.extra_dejson["cursor"]).lower() == 'dictcursor':
+                conn_config["cursorclass"] = MySQLdb.cursors.DictCursor
+            elif (conn.extra_dejson["cursor"]).lower() =='ssdictcursor':
+                conn_config["cursorclass"] = MySQLdb.cursors.SSDictCursor
+        local_infile = conn.extra_dejson.get('local_infile', False)
+        if conn.extra_dejson.get('ssl', False):
+            dejson_ssl = conn.extra_dejson['ssl']
+            if isinstance(dejson_ssl, six.string_types):
+                dejson_ssl = json.loads(dejson_ssl)
+            conn_config['ssl'] = dejson_ssl
+        if conn.extra_dejson.get('unix_socket'):
+            conn_config['unix_socket'] = conn.extra_dejson['unix_socket']
+        if local_infile:
+            conn_config["local_infile"] = 1
+        conn = MySQLdb.connect(**conn_config)
+        return conn
+
+""" This function is used to connect to a database. """
+def connect(conn_id=None, conn_str=None, autocommit=
+35
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def task_state(args):
+    dag = get_dag(args)
+    task = dag.get_task(task_id=args.task_id)
+    ti = TaskInstance(task, args.execution_date)
+    print(ti.current_state())
+
+""" This function is used to create the `update_dag` function """
+def update_dag(args):
+    dag = get_dag(
+36
+Code too long,keep in 512.
+37
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_conn(self):
+        if not self._client:
+            self._client = Client(credentials=self._get_credentials())
+        return self._client
+
+""" This function is used to get the current user's token. """
+def get_token(self):
+    if not self._token:
+
+38
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def translate(
+        self, values, target_language, format_=None, source_language=None, model=None
+    ):
+        client = self.get_conn()
+        return client.translate(
+            values=values,
+            target_language=target_language,
+            format_=format_,
+            source_language=source_language,
+            model=model,
+        )
+
+""" This function is used to translate a string to a value.
+    The string is expected to be in the form of a list of strings.
+    The
+39
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_instance(self, instance, project_id=None):
+        return self.get_conn().instances().get(
+            project=project_id,
+            instance=instance
+        ).execute(num_retries=self.num_retries)
+
+""" This function is used to create a new Cloud SQL instance. """
+def create_instance(project_id, instance_name, instance_
+40
+def create_instance(self, body, project_id=None):
+        response = self.get_conn().instances().insert(
+            project=project_id,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to create a new instance in the project.
+The instance is created in the project.
+"""
+def create
+41
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def patch_instance(self, body, instance, project_id=None):
+        response = self.get_conn().instances().patch(
+            project=project_id,
+            instance=instance,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to patch a single instance in a project.
+The patch is done in a separate thread. """
+def patch_
+42
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def delete_instance(self, instance, project_id=None):
+        response = self.get_conn().instances().delete(
+            project=project_id,
+            instance=instance,
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to delete a project. """
+def delete_project(project_id):
+    response = _make_api_call
+43
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_database(self, instance, database, project_id=None):
+        return self.get_conn().databases().get(
+            project=project_id,
+            instance=instance,
+            database=database
+        ).execute(num_retries=self.num_retries)
+
+""" This function is used to get the instance of a database. """
+def get_database_instance(self, instance, database, project_
+44
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def create_database(self, instance, body, project_id=None):
+        response = self.get_conn().databases().insert(
+            project=project_id,
+            instance=instance,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to create a new database. """
+def create_database_with_default_project(self, instance, body,
+45
+def patch_database(self, instance, database, body, project_id=None):
+        response = self.get_conn().databases().patch(
+            project=project_id,
+            instance=instance,
+            database=database,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to patch the Cloud SQL instance to use the
+Cloud SQL API.
+"""
+class CloudSQLInstancePatchOperator
+46
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def delete_database(self, instance, database, project_id=None):
+        response = self.get_conn().databases().delete(
+            project=project_id,
+            instance=instance,
+            database=database
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to delete a database. """
+def delete_database_from_instance(instance, database, project_id=None
+47
+def export_instance(self, instance, body, project_id=None):
+        try:
+            response = self.get_conn().instances().export(
+                project=project_id,
+                instance=instance,
+                body=body
+            ).execute(num_retries=self.num_retries)
+            operation_name = response["name"]
+            self._wait_for_operation_to_complete(project_id=project_id,
+                                                 operation_name=operation_name)
+        except HttpError as ex:
+            raise AirflowException(
+                'Exporting instance {} failed: {}'.format(instance, ex.content)
+            )
+
+""" This function is used to export a single instance """
+def export_instance_as_json(instance, body):
+    try:
+        response
+48
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def start_proxy(self):
+        self._download_sql_proxy_if_needed()
+        if self.sql_proxy_process:
+            raise AirflowException("The sql proxy is already running: {}".format(
+                self.sql_proxy_process))
+        else:
+            command_to_run = [self.sql_proxy_path]
+            command_to_run.extend(self.command_line_parameters)
+            try:
+                self.log.info("Creating directory %s",
+                              self.cloud_sql_proxy_socket_directory)
+                os.makedirs(self.cloud_sql_proxy_socket_directory)
+            except OSError:
+                pass
+            command_to_run.extend(self._get_credential_parameters())
+            self.log.info("Running the command: `%s`", " ".join(command_to_run))
+            self.sql_proxy_process = Popen(command_to_run,
+                                           stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            self.log.info("The pid of cloud_sql_proxy: %s", self.sql_proxy_process.pid)
+            while True:
+                line = self.sql_proxy_process.stderr.readline().decode('utf-8')
+                return_code = self.sql_proxy_process.poll()
+                if line == '' and return_code is not None:
+                    self.sql_proxy_process = None
+                    raise AirflowException(
+                        "The cloud_sql_proxy finished early with return code {}!".format(
+                            return_code))
+                if line!= '':
+                    self.log.info(line)
+                if "googleapi: Error" in line or "invalid instance name:" in line:
+                    self.stop_proxy()
+                    raise AirflowException(
+                        "Error when starting the cloud_sql_proxy {}!".format(
+                            line))
+                if "Ready for new connections" in line:
+                    return
+
+""" This function is used to start the cloud_sql_proxy process """
+if __name__ == "__main__":
+    """
+    Starts the
+49
+def stop_proxy(self):
+        if not self.sql_proxy_process:
+            raise AirflowException("The sql proxy is not started yet")
+        else:
+            self.log.info("Stopping the cloud_sql_proxy pid: %s",
+                          self.sql_proxy_process.pid)
+            self.sql_proxy_process.kill()
+            self.sql_proxy_process = None
+        self.log.info("Removing the socket directory: %s",
+                      self.cloud_sql_proxy_socket_directory)
+        shutil.rmtree(self.cloud_sql_proxy_socket_directory, ignore_errors=True)
+        if self.sql_proxy_was_downloaded:
+            self.log.info("Removing downloaded proxy: %s", self.sql_proxy_path)
+            try:
+                os.remove(self.sql_proxy_path)
+            except OSError as e:
+                if not e.errno == errno.ENOENT:
+                    raise
+        else:
+            self.log.info("Skipped removing proxy - it was not downloaded: %s",
+                          self.sql_proxy_path)
+        if os.path.isfile(self.credentials_path):
+            self.log.info("Removing generated credentials file %s",
+                          self.credentials_path)
+            os.remove(self.credentials_path)
+
+""" This function is used to setup and run the sql proxy """
+def get_airflow_connection(conn_id='mysql_default'):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+carrot py test:
+
+0
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def sina_xml_to_url_list(xml_data):
+    rawurl = []
+    dom = parseString(xml_data)
+    for node in dom.getElementsByTagName('durl'):
+        url = node.getElementsByTagName('url')[0]
+        rawurl.append(url.childNodes[0].data)
+    return rawurl
+
+""" This function is used to get the list of all the urls in the database """
+def get_urls_from_db(
+1
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def dailymotion_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(rebuilt_url(url))
+    info = json.loads(match1(html, r'qualities":({.+?}),"'))
+    title = match1(html, r'"video_title"\s*:\s*"([^"]+)"') or \
+            match1(html, r'"title"\s*:\s*"([^"]+)"')
+    title = unicodize(title)
+    for quality in ['1080','720','480','380','240','144','auto']:
+        try:
+            real_url = info[quality][1]["url"]
+            if real_url:
+                break
+        except KeyError:
+            pass
+    mime, ext, size = url_info(real_url)
+    print_info(site_info, title, mime, size)
+    if not info_only:
+        download_urls([real_url], title, ext, size, output_dir=output_dir, merge=merge)
+
+""" This function downloads the videos from the given url and saves them to the given folder. """
+def download_urls(urls,
+2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def sina_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    if 'news.sina.com.cn/zxt' in url:
+        sina_zxt(url, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+        return
+    vid = match1(url, r'vid=(\d+)')
+    if vid is None:
+        video_page = get_content(url)
+        vid = hd_vid = match1(video_page, r'hd_vid\s*:\s*\'([^\']+)\'')
+        if hd_vid == '0':
+            vids = match1(video_page, r'[^\w]vid\s*:\s*\'([^\']+)\'').split('|')
+            vid = vids[-1]
+    if vid is None:
+        vid = match1(video_page, r'vid:"?(\d+)"?')
+    if vid:
+        sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+    else:
+        vkey = match1(video_page, r'vkey\s*:\s*"([^"]+)"')
+        if vkey is None:
+            vid = match1(url, r'
+            sina_download_by_vid(vid, output_dir=output_dir, merge=merge, info_only=info_only)
+            return
+        title = match1(video_page, r'title\s*:\s*"([^"]+)"')
+        sina_download_by_vkey(vkey, title=title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function is called from the main() function when the script is
+run from the command line. It parses the command line and
+3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def sprint(text, *colors):
+    return "\33[{}m{content}\33[{}m".format(";".join([str(color) for color in colors]), RESET, content=text) if IS_ANSI_TERMINAL and colors else text
+
+""" This function is used to print the text in a terminal. """
+def print_text(text, *colors):
+    return
+4
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def print_log(text, *colors):
+    sys.stderr.write(sprint("{}: {}".format(script_name, text), *colors) + "\n")
+
+""" This function is called when the script is run directly. """
+def run_script(script_name, *args):
+
+5
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def e(message, exit_code=None):
+    print_log(message, YELLOW, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function is called when the user presses the "q" key. """
+def q(message, exit_code=
+6
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def wtf(message, exit_code=1):
+    print_log(message, RED, BOLD)
+    if exit_code is not None:
+        sys.exit(exit_code)
+
+""" This function is called when the user presses the "q" key. """
+def wtf_exit():
+    print_
+7
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def detect_os():
+    syst = system().lower()
+    os = 'unknown'
+    if 'cygwin' in syst:
+        os = 'cygwin'
+    elif 'darwin' in syst:
+        os ='mac'
+    elif 'linux' in syst:
+        os = 'linux'
+        try:
+            with open('/proc/version', 'r') as f:
+                if'microsoft' in f.read().lower():
+                    os = 'wsl'
+        except: pass
+    elif 'windows' in syst:
+        os = 'windows'
+    elif 'bsd' in syst:
+        os = 'bsd'
+    return os
+
+""" This function is used to determine the OS version from the system. """
+def get_os_version():
+    return platform.
+8
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def vimeo_download_by_channel(url, output_dir='.', merge=False, info_only=False, **kwargs):
+    channel_id = match1(url, r'http://vimeo.com/channels/(\w+)')
+    vimeo_download_by_channel_id(channel_id, output_dir, merge, info_only, **kwargs)
+
+""" This function is called from the command line and will download the file """
+def vimeo_download_by_channel_
+9
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def ckplayer_get_info_by_xml(ckinfo):
+    e = ET.XML(ckinfo)
+    video_dict = {'title': '',
+                  'links': [],
+                 'size': 0,
+                  'flashvars': '',}
+    dictified = dictify(e)['ckplayer']
+    if 'info' in dictified:
+        if '_text' in dictified['info'][0]['title'][0]:
+            video_dict['title'] = dictified['info'][0]['title'][0]['_text'].strip()
+_text' in dictified['video'][0]['size'][0]:
+        video_dict['size'] = sum([int(i['size'][0]['_text']) for i in dictified['video']])
+    if '_text' in dictified['video'][0]['file'][0]:
+        video_dict['links'] = [i['file'][0]['_text'].strip() for i in dictified['video']]
+    if '_text' in dictified['flashvars'][0]:
+        video_dict['flashvars'] = dictified['flashvars'][0]['_text'].strip()
+    return video_dict
+
+""" This function is used to get the video info from the xml file """
+def ckplayer_get_video_info(video
+10
+Code too long,keep in 512.
+11
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_mgtv_real_url(url):
+        content = loads(get_content(url))
+        m3u_url = content['info']
+        split = urlsplit(m3u_url)
+                base_url = "{scheme}://{netloc}{path}/".format(scheme = split[0],
+                                                      netloc = split[1],
+                                                      path = dirname(split[2]))
+        content = get_content(content['info'])
+        segment_list = []
+        segments_size = 0
+        for i in content.split():
+            if not i.startswith('
+            elif i.startswith('
+                segments_size += int(i[i.rfind(':')+1:])
+        return m3u_url, segments_size, segment_list
+
+""" This function is used to get the m3u file from the m3u_url """
+def get_mgtv
+12
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def legitimize(text, os=detect_os()):
+    text = text.translate({
+        0: None,
+        ord('/'): '-',
+        ord('|'): '-',
+    })
+    if os == 'windows' or os == 'cygwin' or os == 'wsl':
+        text = text.translate({
+            ord(':'): '-',
+            ord('*'): '-',
+            ord('?'): '-',
+            ord('\\'): '-',
+            ord('\"'): '\'',
+            ord('+'): '-',
+            ord('<'): '-',
+            ord('>'): '-',
+            ord('['): '(',
+            ord(']'): ')',
+            ord('\t'):'',
+        })
+    else:
+        if os =='mac':
+            text = text.translate({
+                ord(':'): '-',
+            })
+        if text.startswith("."):
+            text = text[1:]
+    text = text[:80]
+    return text
+
+""" This function is used to convert a text string to a number.
+    It is used to convert a number to a text string.
+
+13
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def cbs_download(url, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = get_content(url)
+    pid = match1(html, r'video\.settings\.pid\s*=\s*\'([^\']+)\'')
+    title = match1(html, r'video\.settings\.title\s*=\s*\"([^\"]+)\"')
+    theplatform_download_by_pid(pid, title, output_dir=output_dir, merge=merge, info_only=info_only)
+
+""" This function pulls the video.settings.xml file and returns the url """
+def get_content(url):
+    try
+14
+Code too long,keep in 512.
+15
+Code too long,keep in 512.
+16
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def matchall(text, patterns):
+    ret = []
+    for pattern in patterns:
+        match = re.findall(pattern, text)
+        ret += match
+    return ret
+
+""" This function is used to find all the files in a directory and
+find all the files in a directory recursively. """
+
+
+17
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def parse_query_param(url, param):
+    try:
+        return parse.parse_qs(parse.urlparse(url).query)[param][0]
+    except:
+        return None
+
+""" This function is used to parse the query parameters from the URL. """
+def parse_query_url(url):
+    try
+18
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_content(url, headers={}, decoded=True):
+    logging.debug('get_content: %s' % url)
+    req = request.Request(url, headers=headers)
+    if cookies:
+        cookies.add_cookie_header(req)
+        req.headers.update(req.unredirected_hdrs)
+    response = urlopen_with_retry(req)
+    data = response.read()
+    content_encoding = response.getheader('Content-Encoding')
+    if content_encoding == 'gzip':
+        data = ungzip(data)
+    elif content_encoding == 'deflate':
+        data = undeflate(data)
+    if decoded:
+        charset = match1(
+            response.getheader('Content-Type', ''), r'charset=([\w-]+)'
+        )
+        if charset is not None:
+            data = data.decode(charset, 'ignore')
+        else:
+            data = data.decode('utf-8', 'ignore')
+    return data
+
+""" This function is used to get the content of a page.
+It is used to get the content of a page.
+
+19
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def post_content(url, headers={}, post_data={}, decoded=True, **kwargs):
+    if kwargs.get('post_data_raw'):
+        logging.debug('post_content: %s\npost_data_raw: %s' % (url, kwargs['post_data_raw']))
+    else:
+        logging.debug('post_content: %s\npost_data: %s' % (url, post_data))
+    req = request.Request(url, headers=headers)
+    if cookies:
+        cookies.add_cookie_header(req)
+        req.headers.update(req.unredirected_hdrs)
+    if kwargs.get('post_data_raw'):
+        post_data_enc = bytes(kwargs['post_data_raw'], 'utf-8')
+    else:
+        post_data_enc = bytes(parse.urlencode(post_data), 'utf-8')
+    response = urlopen_with_retry(req, data=post_data_enc)
+    data = response.read()
+    content_encoding = response.getheader('Content-Encoding')
+    if content_encoding == 'gzip':
+        data = ungzip(data)
+    elif content_encoding == 'deflate':
+        data = undeflate(data)
+    if decoded:
+        charset = match1(
+            response.getheader('Content-Type'), r'charset=([\w-]+)'
+        )
+        if charset is not None:
+            data = data.decode(charset)
+        else:
+            data = data.decode('utf-8')
+    return data
+
+""" This function is used to parse the response of the web page.
+The page is parsed into a list of dictionaries. Each dictionary
+20
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def parse_host(host):
+    if re.match(r'^(\d+)$', host) is not None:
+        return ("0.0.0.0", int(host))
+    if re.match(r'^(\w+)://', host) is None:
+        host = "//" + host
+    o = parse.urlparse(host)
+    hostname = o.hostname or "0.0.0.0"
+    port = o.port or 0
+    return (hostname, port)
+
+""" This function is used to parse the output of the command line.
+"""
+def parse_output(output):
+    if
+21
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def showroom_get_roomid_by_room_url_key(room_url_key):
+    fake_headers_mobile = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Charset': 'UTF-8,*;q=0.5',
+        'Accept-Encoding': 'gzip,deflate,sdch',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Mobile Safari/537.36'
+    }
+    webpage_url = 'https://www.showroom-live.com/' + room_url_key
+    html = get_content(webpage_url, headers = fake_headers_mobile)
+    roomid = match1(html, r'room\?room_id\=(\d+)')
+    assert roomid
+    return roomid
+
+""" This function is used to get the roomid of a room. It is used to get the roomid of a room. """
+22
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def _wanmen_get_title_by_json_topic_part(json_content, tIndex, pIndex):
+    return '_'.join([json_content[0]['name'],
+                    json_content[0]['Topics'][tIndex]['name'],
+                    json_content[0]['Topics'][tIndex]['Parts'][pIndex]['name']])
+
+""" This function is used to get the title of a topic part. """
+def _wanmen_get_title_by_
+23
+def wanmen_download_by_course(json_api_content, output_dir='.', merge=True, info_only=False, **kwargs):
+    for tIndex in range(len(json_api_content[0]['Topics'])):
+        for pIndex in range(len(json_api_content[0]['Topics'][tIndex]['Parts'])):
+            wanmen_download_by_course_topic_part(json_api_content,
+                                                 tIndex,
+                                                 pIndex,
+                                                 output_dir=output_dir,
+                                                 merge=merge,
+                                                 info_only=info_only,
+                                                 **kwargs)
+
+""" This function downloads the WANME data from the WANME website and saves it to a file. """
+def wan
+24
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def wanmen_download_by_course_topic_part(json_api_content, tIndex, pIndex, output_dir='.', merge=True, info_only=False, **kwargs):
+    html = json_api_content
+    title = _wanmen_get_title_by_json_topic_part(html,
+                                                  tIndex,
+                                                  pIndex)
+    bokeccID = _wanmen_get_boke_id_by_json_topic_part(html,
+                                                      tIndex,
+                                                     pIndex)
+    bokecc_download_by_id(vid = bokeccID, title = title, output_dir=output_dir, merge=merge, info_only=info_only, **kwargs)
+
+""" This function is used to download the bokecc dataset from the Wanmen website. """
+def wanmen_download
+25
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def has_task(self, task_instance):
+        if task_instance.key in self.queued_tasks or task_instance.key in self.running:
+            return True
+
+""" This function is called by the scheduler to execute the task """
+def execute_task(task_instance):
+    """
+    This
+26
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_event_buffer(self, dag_ids=None):
+        cleared_events = dict()
+        if dag_ids is None:
+            cleared_events = self.event_buffer
+            self.event_buffer = dict()
+        else:
+            for key in list(self.event_buffer.keys()):
+                dag_id, _, _, _ = key
+                if dag_id in dag_ids:
+                    cleared_events[key] = self.event_buffer.pop(key)
+        return cleared_events
+
+""" This function is called from scheduler to send a heartbeat email when a task is executed """
+def send_email_notification(dag
+27
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_conn(self):
+        conn_config = self._get_conn_params()
+        conn = snowflake.connector.connect(**conn_config)
+        return conn
+
+""" This function is used to get the connection to the Snowflake server. """
+def get_conn_params():
+
+28
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def _get_aws_credentials(self):
+        if self.snowflake_conn_id:
+            connection_object = self.get_connection(self.snowflake_conn_id)
+            if 'aws_secret_access_key' in connection_object.extra_dejson:
+                aws_access_key_id = connection_object.extra_dejson.get(
+                    'aws_access_key_id')
+                aws_secret_access_key = connection_object.extra_dejson.get(
+                    'aws_secret_access_key')
+        return aws_access_key_id, aws_secret_access_key
+
+""" This function is used to get the AWS credentials from the environment. """
+def _get_aws_credentials_from_environment
+29
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def _get_field(self, field_name, default=None):
+        full_field_name = 'extra__grpc__{}'.format(field_name)
+        if full_field_name in self.extras:
+            return self.extras[full_field_name]
+        else:
+            return default
+
+""" This function is used to create a new proto file. """
+def _get_field_proto(field_name, default
+30
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def copy_expert(self, sql, filename, open=open):
+        if not os.path.isfile(filename):
+            with open(filename, 'w'):
+                pass
+        with open(filename, 'r+') as f:
+            with closing(self.get_conn()) as conn:
+                with closing(conn.cursor()) as cur:
+                    cur.copy_expert(sql, f)
+                    f.truncate(f.tell())
+                    conn.commit()
+
+""" This function is used to copy the data from the database to the
+database. It is used to copy the data from the database
+31
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def bulk_dump(self, table, tmp_file):
+        self.copy_expert("COPY {table} TO STDOUT".format(table=table), tmp_file)
+
+""" This function is used to dump the data in a table """
+def bulk_dump_table(self, table, tmp_
+32
+def execute(self, context):
+        hook = GoogleCloudStorageHook(
+            google_cloud_storage_conn_id=self.google_cloud_storage_conn_id,
+            delegate_to=self.delegate_to)
+        hook.upload(
+            bucket_name=self.bucket,
+            object_name=self.dst,
+            mime_type=self.mime_type,
+            filename=self.src,
+            gzip=self.gzip,
+        )
+
+""" This function is a custom storage hook. """
+class GoogleCloudStorageHook(GoogleCloudStorageBaseHook):
+    """
+    Inte
+33
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def max_partition(
+        table, schema="default", field=None, filter_map=None,
+        metastore_conn_id='metastore_default'):
+    from airflow.hooks.hive_hooks import HiveMetastoreHook
+    if '.' in table:
+        schema, table = table.split('.')
+    hh = HiveMetastoreHook(metastore_conn_id=metastore_conn_id)
+    return hh.max_partition(
+        schema=schema, table_name=table, field=field, filter_map=filter_map)
+
+""" This function is not part of the SqlAlchemy or DDL parser. """
+def _parse_schema_resource(resource,
+34
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_conn(self):
+        conn = self.get_connection(self.mysql_conn_id)
+        conn_config = {
+            "user": conn.login,
+            "passwd": conn.password or '',
+            "host": conn.host or 'localhost',
+            "db": self.schema or conn.schema or ''
+        }
+        if not conn.port:
+            conn_config["port"] = 3306
+        else:
+            conn_config["port"] = int(conn.port)
+        if conn.extra_dejson.get('charset', False):
+            conn_config["charset"] = conn.extra_dejson["charset"]
+            if (conn_config["charset"]).lower() == 'utf8' or\
+                    (conn_config["charset"]).lower() == 'utf-8':
+                conn_config["use_unicode"] = True
+        if conn.extra_dejson.get('cursor', False):
+            if (conn.extra_dejson["cursor"]).lower() =='sscursor':
+                conn_config["cursorclass"] = MySQLdb.cursors.SSCursor
+            elif (conn.extra_dejson["cursor"]).lower() == 'dictcursor':
+                conn_config["cursorclass"] = MySQLdb.cursors.DictCursor
+            elif (conn.extra_dejson["cursor"]).lower() =='ssdictcursor':
+                conn_config["cursorclass"] = MySQLdb.cursors.SSDictCursor
+        local_infile = conn.extra_dejson.get('local_infile', False)
+        if conn.extra_dejson.get('ssl', False):
+            dejson_ssl = conn.extra_dejson['ssl']
+            if isinstance(dejson_ssl, six.string_types):
+                dejson_ssl = json.loads(dejson_ssl)
+            conn_config['ssl'] = dejson_ssl
+        if conn.extra_dejson.get('unix_socket'):
+            conn_config['unix_socket'] = conn.extra_dejson['unix_socket']
+        if local_infile:
+            conn_config["local_infile"] = 1
+        conn = MySQLdb.connect(**conn_config)
+        return conn
+
+""" This function is used to connect to a database. """
+def connect(conn_id=None, conn_str=None
+35
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def task_state(args):
+    dag = get_dag(args)
+    task = dag.get_task(task_id=args.task_id)
+    ti = TaskInstance(task, args.execution_date)
+    print(ti.current_state())
+
+""" This function is called when the user clicks on the DAG and changes its state.
+    It is used to "execute" a task
+36
+Code too long,keep in 512.
+37
+def get_conn(self):
+        if not self._client:
+            self._client = Client(credentials=self._get_credentials())
+        return self._client
+
+""" This function is used to get the current user's token. """
+def get_token(self):
+    if not self._
+38
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def translate(
+        self, values, target_language, format_=None, source_language=None, model=None
+    ):
+        client = self.get_conn()
+        return client.translate(
+            values=values,
+            target_language=target_language,
+            format_=format_,
+            source_language=source_language,
+            model=model,
+        )
+
+""" This function is used to translate a string to a value.
+    The string is expected to be in the form of a list of strings
+39
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def get_instance(self, instance, project_id=None):
+        return self.get_conn().instances().get(
+            project=project_id,
+            instance=instance
+        ).execute(num_retries=self.num_retries)
+
+""" This function is used to create a new Cloud SQL instance. """
+def create_instance(project_id, instance_name
+40
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def create_instance(self, body, project_id=None):
+        response = self.get_conn().instances().insert(
+            project=project_id,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to create a new instance in the project.
+The instance is created in the project.
+"""
+41
+def patch_instance(self, body, instance, project_id=None):
+        response = self.get_conn().instances().patch(
+            project=project_id,
+            instance=instance,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is a workaround for the fact that there is no way to
+wait for the operation to complete.
+"""
+42
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def delete_instance(self, instance, project_id=None):
+        response = self.get_conn().instances().delete(
+            project=project_id,
+            instance=instance,
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to delete a project. """
+def delete_project(project_id):
+    response = _make_
+43
+def get_database(self, instance, database, project_id=None):
+        return self.get_conn().databases().get(
+            project=project_id,
+            instance=instance,
+            database=database
+        ).execute(num_retries=self.num_retries)
+
+""" This function is used to get the instance of a database. """
+def get_database_instance(self, instance, database
+44
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def create_database(self, instance, body, project_id=None):
+        response = self.get_conn().databases().insert(
+            project=project_id,
+            instance=instance,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to create a new database. """
+def create_database_with_default_project(self, instance
+45
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def patch_database(self, instance, database, body, project_id=None):
+        response = self.get_conn().databases().patch(
+            project=project_id,
+            instance=instance,
+            database=database,
+            body=body
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to patch the Cloud SQL instance to use the
+Cloud SQL API.
+"""
+class CloudSQL
+46
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def delete_database(self, instance, database, project_id=None):
+        response = self.get_conn().databases().delete(
+            project=project_id,
+            instance=instance,
+            database=database
+        ).execute(num_retries=self.num_retries)
+        operation_name = response["name"]
+        self._wait_for_operation_to_complete(project_id=project_id,
+                                             operation_name=operation_name)
+
+""" This function is used to delete a database. """
+def delete_database_from_instance(instance, database, project_
+47
+def export_instance(self, instance, body, project_id=None):
+        try:
+            response = self.get_conn().instances().export(
+                project=project_id,
+                instance=instance,
+                body=body
+            ).execute(num_retries=self.num_retries)
+            operation_name = response["name"]
+            self._wait_for_operation_to_complete(project_id=project_id,
+                                                 operation_name=operation_name)
+        except HttpError as ex:
+            raise AirflowException(
+                'Exporting instance {} failed: {}'.format(instance, ex.content)
+            )
+
+""" This function is a wrapper around the create_instance method. """
+def create_instance(
+    instance_name,
+    image
+48
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def start_proxy(self):
+        self._download_sql_proxy_if_needed()
+        if self.sql_proxy_process:
+            raise AirflowException("The sql proxy is already running: {}".format(
+                self.sql_proxy_process))
+        else:
+            command_to_run = [self.sql_proxy_path]
+            command_to_run.extend(self.command_line_parameters)
+            try:
+                self.log.info("Creating directory %s",
+                              self.cloud_sql_proxy_socket_directory)
+                os.makedirs(self.cloud_sql_proxy_socket_directory)
+            except OSError:
+                pass
+            command_to_run.extend(self._get_credential_parameters())
+            self.log.info("Running the command: `%s`", " ".join(command_to_run))
+            self.sql_proxy_process = Popen(command_to_run,
+                                           stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            self.log.info("The pid of cloud_sql_proxy: %s", self.sql_proxy_process.pid)
+            while True:
+                line = self.sql_proxy_process.stderr.readline().decode('utf-8')
+                return_code = self.sql_proxy_process.poll()
+                if line == '' and return_code is not None:
+                    self.sql_proxy_process = None
+                    raise AirflowException(
+                        "The cloud_sql_proxy finished early with return code {}!".format(
+                            return_code))
+                if line!= '':
+                    self.log.info(line)
+                if "googleapi: Error" in line or "invalid instance name:" in line:
+                    self.stop_proxy()
+                    raise AirflowException(
+                        "Error when starting the cloud_sql_proxy {}!".format(
+                            line))
+                if "Ready for new connections" in line:
+                    return
+
+""" This function is a wrapper around the sql_proxy library.
+    It is used to intercept the proxy process and close it.
+    """
+49
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+def stop_proxy(self):
+        if not self.sql_proxy_process:
+            raise AirflowException("The sql proxy is not started yet")
+        else:
+            self.log.info("Stopping the cloud_sql_proxy pid: %s",
+                          self.sql_proxy_process.pid)
+            self.sql_proxy_process.kill()
+            self.sql_proxy_process = None
+        self.log.info("Removing the socket directory: %s",
+                      self.cloud_sql_proxy_socket_directory)
+        shutil.rmtree(self.cloud_sql_proxy_socket_directory, ignore_errors=True)
+        if self.sql_proxy_was_downloaded:
+            self.log.info("Removing downloaded proxy: %s", self.sql_proxy_path)
+            try:
+                os.remove(self.sql_proxy_path)
+            except OSError as e:
+                if not e.errno == errno.ENOENT:
+                    raise
+        else:
+            self.log.info("Skipped removing proxy - it was not downloaded: %s",
+                          self.sql_proxy_path)
+        if os.path.isfile(self.credentials_path):
+            self.log.info("Removing generated credentials file %s",
+                          self.credentials_path)
+            os.remove(self.credentials_path)
+
+""" This function is called by the Airflow Server as a worker node.
+It processes the logs from the task queue and commits all the
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10955
+0
+/* This method is used to handle the case where the queue is empty */
+1
+/* This method is used to wrap a Java source into a Java object. */
+2
+/* This method is used to sort the list of functions in the order of the list of functions in the order of the list of functions in the order of
+3
+/* This method is used to create a new Replay<T> that is used to create a new Scheduler<T> that is used to create a
+4
+/* This method is used to create a new processor instance. */
+5
+/* This method is used to create a new thread for each thread. */
+6
+/* This method is used to convert a Python object to a Java one. */
+7
+/* This method is used to create a new instance of the {@link #create} transform. */
+8
+/* This method is used to create a new thread that will be used by the
+// thread pool.
+*/
+9
+/* This method is used to create a new completable. */
+10
+/* This method is used to create a new source from a single source. */
+11
+/* This method is used to implement the {@link #get} operator. */
+12
+/* This method is used to implement the {@link #T} static methods. */
+13
+/* This method is used to check if a given function is a member of a
+ * class. If so, it returns true. */
+
+14
+/* This method is used to create a new instance of a class. */
+15
+/* This method is used to convert a function to a C++ class. */
+
+16
+/* This method is used to convert a Cast to a CastToClass<T, U>
+ * to a CastToClass<
+17
+/* This method is used to create a new subject. */
+18
+/* This method is used to create a new subject. */
+19
+/* This method is used to create a new subject. */
+20
+/* This method is used to create a new subject. */
+21
+/* This method is used to get the current thread's stack. */
+22
+/* This method is used to wrap a blocking call that is not blocking. */
+
+23
+/* This method is used to wrap a method to be called from a thread. */
+24
+/* This method is used to send a message to a destination address. */
+25
+/* This method is used to send a subscription to a server. */
+26
+/* This method is used to handle the case where the state is not
+ * the same as the previous state. */
+27
+/* This method is used to implement the "complete" phase of the
+// "request" phase of the "request" phase of the "response
+28
+/* This method is used to get the value of a property. */
+29
+/* This method is used to get the error message */
+30
+/* This method is used to check if a given object is a valid object */
+31
+/* This method is used to implement the {@link #set} operator. */
+32
+/* This method is used to check if a subscription is valid */
+33
+/* This method is used to check if a subscription is valid */
+34
+/* This method is used to implement the C++ "if" operator. */
+35
+/* This method is used to compute the number of bits needed to store the
+// result of the operation. */
+36
+/* This method is used to implement the "if" operator. */
+37
+/* This method is used to get the interface prototype object for the given
+ * interface name.
+ */
+38
+/* This method is used to implement the "if" operator. */
+39
+/* This method is used to stop the executor service. */
+40
+/* This method is used to create a new thread pool. */
+41
+/* This method is used to send a subscription to a server. */
+42
+/* This method is used to generate the code for the generated code. */
+43
+/* This method is used to wrap an IDL type and call a callback when the
+// return value is not an object instance.  In order for
+44
+/* This method is used to create a new array. */
+45
+/* This method is used to check for potential bugs in the code. */
+46
+/* This method is used to free the resources used by the program. */
+47
+/* This method is used to implement the {@link #get_hash_set} function. */
+48
+/* This method is used to implement the "is" operator. */
+49
+/* This method is used to convert a function into a Java type. */

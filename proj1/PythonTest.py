@@ -21,7 +21,7 @@ class pythonTest():
         self.filepath=filepath
         self.outputList=[]
 
-    def run(self,_t,_m,set=0,end=-1,skip=1,type=3):#set=n*2000
+    def run(self,_t,_m,set=0,end=-1,skip=1,type=0):#set=n*2000
         vpath= r"".join([self.filepath])
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
@@ -46,7 +46,7 @@ class pythonTest():
                 self.savetoFile(thousand_count)
         self.savetoFile(0)
     def savetoFile(self,i):
-        filename='carrot_pythonresult1_'+str(i)+'.jsonl'
+        filename='carrot_pythonresult2_'+str(i)+'.jsonl'
         df = pd.DataFrame(self.outputList)
         df.to_json(filename,double_precision=4,orient='records',lines=True)
 
@@ -60,7 +60,7 @@ class javaTest():
         self.filepath=filepath
         self.outputList=[]
 
-    def run(self,_t,_m,set=0,end=-1,skip=1,type=3):
+    def run(self,_t,_m,set=0,end=-1,skip=1,type=0):
         vpath= r"".join([self.filepath])
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
@@ -91,7 +91,7 @@ class javaTest():
 
 
 class jsTest():
-    def __init__(self, filepath='dataset/javascript/test2.jsonl'):
+    def __init__(self, filepath='dataset/javascript/test.jsonl'):
         '''with open(filepath, "r+", encoding="utf8") as f:
             for item in jsonlines.Reader(f):
                 print(item)
@@ -100,7 +100,7 @@ class jsTest():
         self.filepath = filepath
         self.outputList = []
 
-    def run(self,_t,_m, set=0, end=-1,skip=1,type=3):
+    def run(self,_t,_m, set=0, end=-1,skip=1,type=0):
         vpath = r"".join([self.filepath])
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
@@ -140,7 +140,7 @@ class goTest():
         self.filepath = filepath
         self.outputList = []
 
-    def run(self,_t,_m, set=0, end=-1,skip=1,type=3):
+    def run(self,_t,_m, set=0, end=-1,skip=1,type=0):
         vpath = r"".join([self.filepath])
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
@@ -180,7 +180,7 @@ class phpTest():
         self.filepath = filepath
         self.outputList = []
 
-    def run(self,_t,_m, set=0, end=-1,skip=1,type=3):
+    def run(self,_t,_m, set=0, end=-1,skip=1,type=0):
         vpath = r"".join([self.filepath])
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
@@ -220,7 +220,7 @@ class rubyTest():
         self.filepath = filepath
         self.outputList = []
 
-    def run(self,_t,_m, set=0, end=-1,skip=1,type=3):
+    def run(self,_t,_m, set=0, end=-1,skip=1,type=0):
         vpath = r"".join([self.filepath])
         data = pd.read_json(vpath, orient='records', lines=True)
         df = data[["code", "docstring"]]
@@ -250,11 +250,19 @@ class rubyTest():
         df.to_json(filename, double_precision=4, orient='records', lines=True)
 
 
-
-tk=AutoTokenizer.from_pretrained("Salesforce/codet5-large")
-md=T5ForConditionalGeneration.from_pretrained("Salesforce/codet5-large")
-test1=pythonTest()
-test1.run(end=50,_t=tk,_m=md,skip=0)
-test2=javaTest()
-test2.run(end=50,_t=tk,_m=md,skip=0)
-
+tk = AutoTokenizer.from_pretrained("codeparrot/codeparrot")
+md = AutoModelWithLMHead.from_pretrained("codeparrot/codeparrot")
+#tk=AutoTokenizer.from_pretrained("Salesforce/codet5-large")
+#md=T5ForConditionalGeneration.from_pretrained("Salesforce/codet5-large")
+#test1=pythonTest()
+#test1.run(end=50,_t=tk,_m=md,skip=2)
+#test1=javaTest()
+#test1.run(end=50,_t=tk,_m=md,skip=2)
+#test1=jsTest()
+#test1.run(end=50,_t=tk,_m=md,skip=2)
+#test1=goTest()
+#test1.run(end=50,_t=tk,_m=md,skip=2)
+test1=phpTest()
+test1.run(end=50,_t=tk,_m=md,skip=2)
+test1=rubyTest()
+test1.run(end=50,_t=tk,_m=md,skip=2)

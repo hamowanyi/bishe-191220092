@@ -34,14 +34,14 @@ class scoreTest():
             i=i+1
 
     def get_all_into_count(self):
-        self.run('results/pythonresult4_0.jsonl')
+        self.run('carrot_rubyresult2_0.jsonl')
         #self.run('results/javaresult1.jsonl')
         print(self.mean(self.BLEUList))
         print(self.mean(self.METEORList))
 
 
 class recordTest():
-    def __init__(self, filepath='pythonresult30.jsonl'):
+    def __init__(self, filepath='carrot_rubyresult2_0.jsonl'):
         self.filepath = filepath
 
     def run(self):
@@ -93,7 +93,7 @@ class codeTest():
 
 
 
-#recordTest().run()
+recordTest().run()
 scoreTest().get_all_into_count()
 #codeTest().run()
 
@@ -105,8 +105,6 @@ scoreTest().get_all_into_count()
 #0.130077798632525
 #0.18108317468829724
 #py3 newtest:
-#0.144984
-#0.248424
 #0.12441372838181906
 #0.169677724896099
 #py4 type2:
